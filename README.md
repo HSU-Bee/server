@@ -1,7 +1,5 @@
 # HSU Capstone Design - Bee:PETRA
 
----
-
 ## Team, Bee
 > 팀장 : [한인주] <br/>
 > 팀원 : 박종수, 이윤미, 홍재희

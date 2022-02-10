@@ -2,7 +2,7 @@
 
 ## Team, Bee
 > 팀장 : [한인주] <br/>
-> 팀원 : 박종수, 이윤미, 홍재희
+> 팀원 : [박종수], 이윤미, 홍재희
 
 ## PETRA란?
 > **소개**
@@ -26,3 +26,4 @@
   - discord
 
 [한인주]: https://github.com/HanInJu
+[박종수]: https://github.com/Bell-water

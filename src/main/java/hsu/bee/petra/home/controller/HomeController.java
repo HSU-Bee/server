@@ -1,4 +1,4 @@
-package hsu.bee.petra.controller.home;
+package hsu.bee.petra.home.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

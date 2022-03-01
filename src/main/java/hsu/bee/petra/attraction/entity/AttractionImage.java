@@ -7,6 +7,6 @@ import hsu.bee.petra.common.entity.Timestamp;
 
 @Entity
 @Table(name = "attraction_image")
-public class AttractionImage extends Timestamp {
+public class AttractionImage {
 	// attraction image 복합키 매핑
 }

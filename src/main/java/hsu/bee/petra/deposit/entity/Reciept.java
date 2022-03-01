@@ -5,6 +5,6 @@ import javax.persistence.Entity;
 import hsu.bee.petra.common.entity.Timestamp;
 
 @Entity
-public class Reciept extends Timestamp {
+public class Reciept {
 	// deposit, image 복합키 매핑
 }

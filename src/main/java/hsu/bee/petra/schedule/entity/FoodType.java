@@ -1,12 +1,29 @@
 package hsu.bee.petra.schedule.entity;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
+import hsu.bee.petra.code.entity.FoodCode;
 import hsu.bee.petra.common.entity.Timestamp;
 
 @Entity
 @Table(name = "food_type")
 public class FoodType extends Timestamp {
-	// schedule, food_code 복합키 매핑
+
+	@EmbeddedId
+	private FoodTypeId id;
+
+	@MapsId("scheduleId")
+	@ManyToOne
+	@JoinColumn(name = "schedule_id")
+	private Schedule schedule;
+
+	@MapsId("foodCodeId")
+	@ManyToOne
+	@JoinColumn(name = "code_id")
+	private FoodCode foodCode;
 }

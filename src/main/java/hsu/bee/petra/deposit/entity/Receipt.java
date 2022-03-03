@@ -1,25 +1,23 @@
-package hsu.bee.petra.review.entity;
+package hsu.bee.petra.deposit.entity;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
-import javax.persistence.Table;
 
 import hsu.bee.petra.image.entity.Image;
 
 @Entity
-@Table(name = "review_image")
-public class ReviewImage {
-	// rivew, image 복합키 매핑
-	@EmbeddedId
-	private ReviewImageId id;
+public class Receipt {
 
-	@MapsId("reviewId")
+	@EmbeddedId
+	private ReceiptId id;
+
+	@MapsId("depositId")
 	@ManyToOne
-	@JoinColumn(name = "review_id")
-	private Review review;
+	@JoinColumn(name = "deposit_id")
+	private Deposit deposit;
 
 	@MapsId("imageId")
 	@ManyToOne

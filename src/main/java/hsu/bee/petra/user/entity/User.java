@@ -7,8 +7,12 @@ import javax.persistence.OneToOne;
 
 import hsu.bee.petra.code.entity.TravelCode;
 import hsu.bee.petra.common.entity.Timestamp;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@NoArgsConstructor
 public class User extends Timestamp {
 
 	@Id

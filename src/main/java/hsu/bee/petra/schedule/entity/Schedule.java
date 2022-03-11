@@ -1,6 +1,8 @@
 package hsu.bee.petra.schedule.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,8 +17,12 @@ import javax.persistence.OneToOne;
 import hsu.bee.petra.code.entity.Status;
 import hsu.bee.petra.common.entity.Timestamp;
 import hsu.bee.petra.user.entity.User;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@NoArgsConstructor
 public class Schedule extends Timestamp {
 
 	@Id
@@ -35,4 +41,14 @@ public class Schedule extends Timestamp {
 
 	@OneToOne(fetch = FetchType.LAZY)
 	private Status status;
+
+	/** 양방향 매핑 */
+	@OneToMany(mappedBy = "schedule")
+	private List<Plan> planList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "schedule")
+	private List<FoodType> foodTypeList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "schedule")
+	private List<TravelType> travelTypeList = new ArrayList<>();
 }

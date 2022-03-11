@@ -13,8 +13,12 @@ import javax.persistence.ManyToOne;
 
 import hsu.bee.petra.attraction.entity.Attraction;
 import hsu.bee.petra.common.entity.Timestamp;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@NoArgsConstructor
 public class Plan extends Timestamp {
 
 	@Id
@@ -36,4 +40,14 @@ public class Plan extends Timestamp {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "attraction_id")
 	private Attraction attraction;
+
+	public void changeSchedule(Schedule schedule) {
+		if(this.schedule != null) {
+			this.schedule.getPlanList().remove(this);
+		}
+		this.schedule = schedule;
+		if (!schedule.getPlanList().contains(this)) {
+			schedule.getPlanList().add(this);
+		}
+	}
 }

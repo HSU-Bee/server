@@ -10,8 +10,12 @@ import javax.persistence.Table;
 
 import hsu.bee.petra.code.entity.TravelCode;
 import hsu.bee.petra.common.entity.Timestamp;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@NoArgsConstructor
 @Table(name = "travel_type")
 public class TravelType extends Timestamp {
 
@@ -27,4 +31,14 @@ public class TravelType extends Timestamp {
 	@ManyToOne
 	@JoinColumn(name = "code_id")
 	private TravelCode travelCode;
+
+	public void changeSchedule(Schedule schedule) {
+		if(this.schedule != null) {
+			this.schedule.getTravelTypeList().remove(this);
+		}
+		this.schedule = schedule;
+		if(!schedule.getTravelTypeList().contains(this)) {
+			schedule.getTravelTypeList().add(this);
+		}
+	}
 }

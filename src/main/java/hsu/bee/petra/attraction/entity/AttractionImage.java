@@ -9,8 +9,12 @@ import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import hsu.bee.petra.image.entity.Image;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@NoArgsConstructor
 @Table(name = "attraction_image")
 public class AttractionImage {
 
@@ -26,4 +30,14 @@ public class AttractionImage {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "image_id")
 	private Image image;
+
+	public void changeAttraction(Attraction attraction) {
+		if(this.attraction != null) {
+			this.attraction.getAttractionImageList().remove(this);
+		}
+		this.attraction = attraction;
+		if(!attraction.getAttractionImageList().contains(this)) {
+			attraction.getAttractionImageList().add(this);
+		}
+	}
 }

@@ -9,8 +9,12 @@ import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import hsu.bee.petra.image.entity.Image;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
+@NoArgsConstructor
 @Table(name = "review_image")
 public class ReviewImage {
 
@@ -26,4 +30,14 @@ public class ReviewImage {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "image_id")
 	private Image image;
+
+	public void changeReview(Review review) {
+		if(this.review != null) {
+			this.review.getReviewImageList().remove(this);
+		}
+		this.review = review;
+		if(!review.getReviewImageList().contains(this)) {
+			review.getReviewImageList().add(this);
+		}
+	}
 }

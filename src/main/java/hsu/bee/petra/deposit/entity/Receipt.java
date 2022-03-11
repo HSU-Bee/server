@@ -8,8 +8,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 
 import hsu.bee.petra.image.entity.Image;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@NoArgsConstructor
 public class Receipt {
 
 	@EmbeddedId
@@ -24,4 +28,14 @@ public class Receipt {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "image_id")
 	private Image image;
+
+	public void changeDeposit(Deposit deposit) {
+		if(this.deposit != null) {
+			this.deposit.getReceiptList().remove(this);
+		}
+		this.deposit = deposit;
+		if(!deposit.getReceiptList().contains(this)) {
+			deposit.getReceiptList().add(this);
+		}
+	}
 }

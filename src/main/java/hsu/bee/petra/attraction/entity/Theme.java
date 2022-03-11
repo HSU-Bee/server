@@ -10,7 +10,8 @@ import hsu.bee.petra.common.entity.Timestamp;
 @Entity
 public class Theme extends Timestamp {
 
-	@Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	private String name;

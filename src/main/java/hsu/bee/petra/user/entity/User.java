@@ -1,6 +1,7 @@
 package hsu.bee.petra.user.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
@@ -17,6 +18,6 @@ public class User extends Timestamp {
 	private String nickname;
 	private String introduce;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	private TravelCode travelCode;
 }

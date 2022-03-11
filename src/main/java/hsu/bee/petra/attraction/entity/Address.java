@@ -11,7 +11,8 @@ import hsu.bee.petra.common.entity.Timestamp;
 @Entity
 public class Address extends Timestamp {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(columnDefinition = "text")

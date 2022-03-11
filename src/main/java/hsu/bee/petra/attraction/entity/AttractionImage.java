@@ -2,6 +2,7 @@ package hsu.bee.petra.attraction.entity;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -17,12 +18,12 @@ public class AttractionImage {
 	private AttractionImageId id;
 
 	@MapsId("attractionId")
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "attraction_id")
 	private Attraction attraction;
 
 	@MapsId("imageId")
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "image_id")
 	private Image image;
 }

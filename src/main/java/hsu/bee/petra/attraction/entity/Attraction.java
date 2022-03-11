@@ -12,7 +12,8 @@ import hsu.bee.petra.common.entity.Timestamp;
 @Entity
 public class Attraction extends Timestamp {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String location;

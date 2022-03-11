@@ -2,6 +2,7 @@ package hsu.bee.petra.schedule.entity;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -13,12 +14,12 @@ import hsu.bee.petra.common.entity.Timestamp;
 @Entity
 @Table(name = "travel_type")
 public class TravelType extends Timestamp {
-	// schedule, travel_code 복합키
+
 	@EmbeddedId
 	private TravelTypeId id;
 
 	@MapsId("scheduleId")
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "schedule_id")
 	private Schedule schedule;
 

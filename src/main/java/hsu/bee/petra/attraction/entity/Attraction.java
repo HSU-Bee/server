@@ -5,9 +5,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -30,7 +33,8 @@ public class Attraction extends Timestamp {
 	@Column(columnDefinition = "text")
 	private String introduce;
 
-	@OneToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "address_id")
 	private Address address;
 
 	@OneToOne
@@ -39,4 +43,14 @@ public class Attraction extends Timestamp {
 	@OneToMany(mappedBy = "attraction")
 	private List<AttractionImage> attractionImageList = new ArrayList<>();
 
+	public void changeAddress(Address address) {
+		if(this.address != null) {
+			this.address.getAttractionList().remove(this);
+		}
+
+		this.address = address;
+		if(!address.getAttractionList().contains(this)) {
+			address.getAttractionList().add(this);
+		}
+	}
 }

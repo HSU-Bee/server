@@ -17,7 +17,7 @@ import hsu.bee.petra.user.dto.UserLogInDto;
 @RestController
 public class HomeController {
 
-    private static final String AUTH_COOKIE = "userId";
+    private static final String AUTH_COOKIE = "userCookie";
     private static final Response successResponse = new Response();
 
     @GetMapping("/")
@@ -28,6 +28,7 @@ public class HomeController {
     @PostMapping("/index/login")
     public Response signIn(HttpServletResponse response, @RequestBody UserLogInDto user) {
         Cookie cookie = new Cookie(AUTH_COOKIE, user.getId());
+        cookie.setMaxAge(18000);
         response.addCookie(cookie);
         return successResponse;
     }

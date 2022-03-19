@@ -5,10 +5,12 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Embeddable
 @NoArgsConstructor
+@EqualsAndHashCode
 public class ReceiptId implements Serializable {
 
 	@Column(name = "deposit_id")

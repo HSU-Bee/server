@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import hsu.bee.petra.common.entity.Timestamp;
+import hsu.bee.petra.locatiion.entity.Sigungu;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,21 +28,18 @@ public class Attraction extends Timestamp {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String location;
 	private String name;
-
-	@Column(columnDefinition = "text")
-	private String introduce;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "address_id")
 	private Address address;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "sigungu_id")
+	private Sigungu sigungu;
+
 	@OneToOne
 	private Theme theme;
-
-	@OneToMany(mappedBy = "attraction")
-	private List<AttractionImage> attractionImageList = new ArrayList<>();
 
 	public void changeAddress(Address address) {
 		if(this.address != null) {

@@ -1,4 +1,4 @@
-package hsu.bee.petra.attraction.entity;
+package hsu.bee.petra.locatiion.entity;
 
 import java.io.Serializable;
 
@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @NoArgsConstructor
 @EqualsAndHashCode
-public class AttractionImageId implements Serializable {
+public class SigunguId implements Serializable {
 
-	@Column(name = "attraction_id")
-	private Long attractionId;
+	@Column(name = "area_id")
+	private int areaId;
 
-	@Column(name = "image_id")
-	private Long imageId;
+	@Column(name = "sigungu_id")
+	private int sigunguId;
 }

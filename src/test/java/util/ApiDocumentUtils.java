@@ -10,9 +10,10 @@ public interface ApiDocumentUtils {
 	static OperationRequestPreprocessor getDocumentRequest() {
 		return preprocessRequest(
 			modifyUris()
-				.scheme("https")
-				.host("docs.api.com")
-				.removePort(),
+				.scheme("http")
+				.host("localhost")
+				.port(8080),
+				// .removePort(),
 			prettyPrint());
 	}
 

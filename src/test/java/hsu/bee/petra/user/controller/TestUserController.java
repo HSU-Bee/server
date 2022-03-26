@@ -3,9 +3,9 @@ package hsu.bee.petra.user.controller;
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.*;
 import static com.epages.restdocs.apispec.ResourceDocumentation.*;
 import static org.mockito.Mockito.*;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static util.ApiDocumentUtils.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,17 +19,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import hsu.bee.petra.response.ResponseCode;
 import hsu.bee.petra.response.ResponseMessage;
 import hsu.bee.petra.user.dto.LogInDto;
 import hsu.bee.petra.user.service.UserService;
 
-import com.google.gson.Gson;
-
 @WebMvcTest(UserController.class)
-@AutoConfigureRestDocs(uriScheme = "https", uriHost = "docs.api.com")
+@AutoConfigureRestDocs
 // @ExtendWith({RestDocumentationExtension.class, SpringExtension.class, MockitoExtension.class})
 public class TestUserController {
 
@@ -38,8 +36,6 @@ public class TestUserController {
 
 	@Autowired
 	private MockMvc mockMvc;
-
-	private final ObjectMapper objectMapper = new ObjectMapper();
 
 	@Test
 	@DisplayName("쿠키발급 성공 테스트")
@@ -52,7 +48,6 @@ public class TestUserController {
 		ResultActions result = mockMvc.perform(
 				RestDocumentationRequestBuilders.post("/login")
 					.contentType(MediaType.APPLICATION_JSON)
-					//.content(objectMapper.writeValueAsString(logInDto))
 					.content(new Gson().toJson(logInDto))
 			);
 
@@ -71,8 +66,8 @@ public class TestUserController {
 				))
 			)
 			.andDo(document("LogIn and Get Cookie",
-				preprocessRequest(prettyPrint()),
-				preprocessResponse(prettyPrint()),
+				getDocumentRequest(),
+				getDocumentResponse(),
 				resource(
 					ResourceSnippetParameters.builder()
 						.description("로그인 후 쿠키를 발급받을 수 있습니다.")

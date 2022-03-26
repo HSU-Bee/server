@@ -23,8 +23,5 @@ public class Sigungu {
 	@JoinColumn(name = "area_id")
 	private Area area;
 
-	@MapsId("sigunguId")
-	private int sigunguId;
-
 	private String name;
 }

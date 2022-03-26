@@ -60,14 +60,14 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   jpa:
-    database-platform: org.hibernate.dialect.MySQL5Dialect
+    database-platform: org.hibernate.dialect.MySQLInnoDBDialect
     open-in-view: false
     properties:
       hibernate:
         format_sql: true
         use_sql_comments: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
 
 ---

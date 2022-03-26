@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class Area {
 
 	@Id
-	private int id;
+	private Integer id;
 
 	private String name;
 

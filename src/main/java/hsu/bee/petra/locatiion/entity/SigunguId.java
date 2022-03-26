@@ -6,16 +6,17 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Embeddable
 @NoArgsConstructor
 @EqualsAndHashCode
 public class SigunguId implements Serializable {
 
 	@Column(name = "area_id")
-	private int areaId;
+	private Integer areaId;
 
-	@Column(name = "sigungu_id")
-	private int sigunguId;
+	private Integer id;
 }

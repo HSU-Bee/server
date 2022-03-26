@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import hsu.bee.petra.common.entity.Timestamp;
 import lombok.Getter;
@@ -38,7 +37,7 @@ public class Address extends Timestamp {
 
 	private String zipcode;
 
-	@OneToMany
+	@OneToMany(mappedBy = "address")
 	private List<Attraction> attractionList = new ArrayList<>();
 
 

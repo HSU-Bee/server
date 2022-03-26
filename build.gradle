@@ -1,7 +1,8 @@
 plugins {
     id 'org.springframework.boot' version '2.6.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.asciidoctor.convert' version '1.5.8'
+    id 'org.asciidoctor.convert' version '1.5.9.2'
+    id 'com.epages.restdocs-api-spec' version '0.11.3'
     id 'java'
 }
 
@@ -23,6 +24,38 @@ ext {
     set('snippetsDir', file("build/generated-snippets"))
 }
 
+test {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+bootJar {
+    dependsOn asciidoctor
+
+    copy{
+        from "build/asciidoc/html5"
+        into "stc/main/resources/static/docs"
+    }
+}
+
+openapi3 {
+    server = 'http://localhost:8080'
+    title = 'PETRA API'
+    description = 'PETRA API description'
+    version = '0.1.0'
+    format = 'yaml'
+
+    copy{
+        from "build/api-spec"
+        into "src/main/resources/static/docs"
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -32,6 +65,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.11.3'
+    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
 }
 
 tasks.named('test') {

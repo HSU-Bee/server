@@ -3,6 +3,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.asciidoctor.convert' version '1.5.9.2'
     id 'com.epages.restdocs-api-spec' version '0.11.3'
+    id 'org.hidetake.swagger.generator' version '2.18.2'
     id 'java'
 }
 
@@ -39,7 +40,14 @@ bootJar {
 
     copy{
         from "build/asciidoc/html5"
-        into "stc/main/resources/static/docs"
+        into "src/main/resources/static/docs"
+    }
+
+    dependsOn openapi3
+
+    copy{
+        from "build/swagger-ui-PETRA/"
+        into "src/main/resources/static/api/"
     }
 }
 
@@ -56,6 +64,12 @@ openapi3 {
     }
 }
 
+swaggerSources {
+    register("PETRA").configure {
+        setInputFile(file("${project.buildDir}/api-spec/openapi3.yaml"))
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -69,7 +83,7 @@ dependencies {
     testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.11.3'
     asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-
+    swaggerUI("org.webjars:swagger-ui:3.52.3")
 }
 
 tasks.named('test') {

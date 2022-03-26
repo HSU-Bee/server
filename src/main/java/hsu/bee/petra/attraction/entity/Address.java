@@ -34,10 +34,9 @@ public class Address extends Timestamp {
 	private String address;
 
 	@Column(columnDefinition = "text")
-	private String detailAddress;
+	private String detail;
 
-	@Column(columnDefinition = "text")
-	private String buildingName;
+	private String zipcode;
 
 	@OneToMany
 	private List<Attraction> attractionList = new ArrayList<>();

@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import hsu.bee.petra.attraction.entity.Attraction;
-import hsu.bee.petra.common.entity.Timestamp;
+import hsu.bee.petra.time.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

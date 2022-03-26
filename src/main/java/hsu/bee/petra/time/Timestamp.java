@@ -1,4 +1,4 @@
-package hsu.bee.petra.common.entity;
+package hsu.bee.petra.time;
 
 import java.time.LocalDateTime;
 

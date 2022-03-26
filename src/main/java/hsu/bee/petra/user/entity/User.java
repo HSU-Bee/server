@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 import hsu.bee.petra.code.entity.TravelCode;
-import hsu.bee.petra.common.entity.Timestamp;
+import hsu.bee.petra.time.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

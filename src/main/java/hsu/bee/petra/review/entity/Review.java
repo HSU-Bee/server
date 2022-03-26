@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import hsu.bee.petra.attraction.entity.Attraction;
-import hsu.bee.petra.common.entity.Timestamp;
+import hsu.bee.petra.time.Timestamp;
 import hsu.bee.petra.schedule.entity.Schedule;
 import hsu.bee.petra.user.entity.User;
 import lombok.Getter;

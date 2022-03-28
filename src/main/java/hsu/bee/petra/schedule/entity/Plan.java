@@ -28,9 +28,13 @@ public class Plan extends Timestamp {
 	@Column(columnDefinition = "text")
 	private String memo;
 
-	private int order;
+	@Column(columnDefinition = "int", name = "\"order\"")
+	private Integer order;
 
+	@Column(columnDefinition = "DATE")
 	private LocalDate startDate;
+
+	@Column(columnDefinition = "DATE")
 	private LocalDate endDate;
 
 	@ManyToOne(fetch = FetchType.LAZY)

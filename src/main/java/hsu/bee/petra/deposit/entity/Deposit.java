@@ -28,10 +28,15 @@ public class Deposit extends Timestamp {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(columnDefinition = "DATE")
 	private LocalDate date;
 	private String city;
+
+	@Column(name = "\"usage\"")
 	private String usage;
-	private int price;
+
+	@Column(columnDefinition = "int")
+	private Integer price;
 
 	@Column(columnDefinition = "text")
 	private String detail;

@@ -24,6 +24,6 @@ public class User extends Timestamp {
 	private String introduce;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "travle_code_id")
+	@JoinColumn(name = "travel_code_id")
 	private TravelCode travelCode;
 }

@@ -1,4 +1,4 @@
-package hsu.bee.petra.review.entity;
+package hsu.bee.petra.common.review.entity;
 
 import hsu.bee.petra.image.entity.Image;
 

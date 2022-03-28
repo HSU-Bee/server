@@ -1,4 +1,4 @@
-package hsu.bee.petra.review.entity;
+package hsu.bee.petra.common.review.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

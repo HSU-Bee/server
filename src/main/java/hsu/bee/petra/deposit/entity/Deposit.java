@@ -15,7 +15,7 @@ import hsu.bee.petra.schedule.entity.Schedule;
 public class Deposit extends Timestamp {
 
 	@Id
-	private Long id;
+	private String id;
 
 	private LocalDate date;
 	private String city;

@@ -30,8 +30,8 @@ public class Schedule extends Timestamp {
 	private Long id;
 
 	private String title;
-	private Integer adult;
-	private Integer child;
+	private int adult;
+	private int child;
 	private LocalDate startDate;
 	private LocalDate endDate;
 
@@ -46,9 +46,9 @@ public class Schedule extends Timestamp {
 	@OneToMany(mappedBy = "schedule")
 	private List<Plan> planList = new ArrayList<>();
 
-	@OneToMany(mappedBy = "schedule")
+	@OneToMany(mappedBy = "id.scheduleId")
 	private List<FoodType> foodTypeList = new ArrayList<>();
 
-	@OneToMany(mappedBy = "schedule")
+	@OneToMany(mappedBy = "id.scheduleId")
 	private List<TravelType> travelTypeList = new ArrayList<>();
 }

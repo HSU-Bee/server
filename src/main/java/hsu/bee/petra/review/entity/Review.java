@@ -46,6 +46,6 @@ public class Review extends Timestamp {
 	@JoinColumn(name = "attraction_id")
 	private Attraction attraction;
 
-	@OneToMany(mappedBy = "review")
+	@OneToMany(mappedBy = "id.reviewId")
 	private List<ReviewImage> reviewImageList = new ArrayList<>();
 }

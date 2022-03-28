@@ -3,6 +3,7 @@ package hsu.bee.petra.user.entity;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import hsu.bee.petra.code.entity.TravelCode;
@@ -23,5 +24,6 @@ public class User extends Timestamp {
 	private String introduce;
 
 	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "travle_code_id")
 	private TravelCode travelCode;
 }

@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class SigunguId implements Serializable {
 
-	@Column(name = "area_id")
-	private Integer areaId;
+	private int id;
 
-	private Integer id;
+	@Column(name = "area_id")
+	private int areaId;
 }

@@ -31,7 +31,7 @@ public class Deposit extends Timestamp {
 	private LocalDate date;
 	private String city;
 	private String usage;
-	private Integer price;
+	private int price;
 
 	@Column(columnDefinition = "text")
 	private String detail;
@@ -40,6 +40,6 @@ public class Deposit extends Timestamp {
 	@JoinColumn(name = "schedule_id")
 	private Schedule schedule;
 
-	@OneToMany(mappedBy = "deposit")
+	@OneToMany(mappedBy = "id.depositId")
 	private List<Receipt> receiptList = new ArrayList<>();
 }

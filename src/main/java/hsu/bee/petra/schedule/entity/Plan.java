@@ -28,7 +28,7 @@ public class Plan extends Timestamp {
 	@Column(columnDefinition = "text")
 	private String memo;
 
-	private Integer order;
+	private int order;
 
 	private LocalDate startDate;
 	private LocalDate endDate;

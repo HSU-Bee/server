@@ -6,11 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import hsu.bee.petra.locatiion.entity.Sigungu;
 import hsu.bee.petra.time.Timestamp;
-// import hsu.bee.petra.locatiion.entity.Sigungu;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,11 +30,15 @@ public class Attraction extends Timestamp {
 	@JoinColumn(name = "address_id")
 	private Address address;
 
-	// @ManyToOne(fetch = FetchType.LAZY)
-	// @JoinColumn(name = "sigungu_id")
-	// private Sigungu sigungu;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns({
+		@JoinColumn(name = "sigungu_id"),
+		@JoinColumn(name = "area_id")
+	})
+	private Sigungu sigungu;
 
 	@OneToOne
+	@JoinColumn(name = "theme_id")
 	private Theme theme;
 
 	public void changeAddress(Address address) {

@@ -1,4 +1,4 @@
-package hsu.bee.petra.common.review.entity;
+package hsu.bee.petra.review.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,27 +25,27 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Review extends Timestamp {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	private String title;
+    private String title;
 
-	@Column(columnDefinition = "text")
-	private String content;
+    @Column(columnDefinition = "text")
+    private String content;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "schedule_id")
-	private Schedule schedule;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "schedule_id")
+    private Schedule schedule;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "attraction_id")
-	private Attraction attraction;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "attraction_id")
+    private Attraction attraction;
 
-	@OneToMany(mappedBy = "id.reviewId")
-	private List<ReviewImage> reviewImageList = new ArrayList<>();
+    @OneToMany(mappedBy = "id.reviewId")
+    private List<ReviewImage> reviewImageList = new ArrayList<>();
 }

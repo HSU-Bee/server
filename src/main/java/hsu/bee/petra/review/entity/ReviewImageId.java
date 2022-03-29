@@ -1,4 +1,4 @@
-package hsu.bee.petra.schedule.entity;
+package hsu.bee.petra.review.entity;
 
 import java.io.Serializable;
 
@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @NoArgsConstructor
 @EqualsAndHashCode
-public class FoodTypeId implements Serializable {
+public class ReviewImageId implements Serializable {
 
-    @Column(name = "schedule_id")
-    private Long scheduleId;
+    @Column(name = "review_id")
+    private Long reviewId;
 
-    @Column(name = "code_id")
-    private Long foodCodeId;
+    @Column(name = "image_id")
+    private Long imageId;
 }

@@ -26,4 +26,8 @@ public class User extends Timestamp {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "travel_code_id")
 	private TravelCode travelCode;
+
+	public void setTravelCode(TravelCode travelCode) {
+		this.travelCode = travelCode;
+	}
 }

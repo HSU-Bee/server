@@ -15,13 +15,13 @@ import java.util.Arrays;
 @RestController
 public class TravelCodeController {
 
-    private final TravelCodeService travelTypeService;
+    private final TravelCodeService travelCodeService;
 
-    @PostMapping("/travel-types")
+    @PostMapping("/users/travel-types")
     public TravelCodeDto grantTravelCode(@RequestBody BalanceGameAnswerDto answer) {
 
         // user의 성향 계산
-        TravelCodeDto travelCodeDto = travelTypeService.createTravelCode(answer.getId(), answer.getAnswer());
+        TravelCodeDto travelCodeDto = travelCodeService.createTravelCode(answer.getId(), answer.getAnswer());
 
         return travelCodeDto;
     }

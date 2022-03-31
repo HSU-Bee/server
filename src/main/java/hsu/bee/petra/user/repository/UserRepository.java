@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 @Repository
 public class UserRepository {
 
-    EntityManager em;
+    private final EntityManager em;
 
     public User findOne(String id) {
 
@@ -22,7 +22,6 @@ public class UserRepository {
 
         User user = findOne(id);
         user.setTravelCode(travelCode);
-        em.persist(user);
     }
 
 }

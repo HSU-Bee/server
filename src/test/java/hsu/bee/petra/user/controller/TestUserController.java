@@ -56,16 +56,16 @@ public class TestUserController {
 		result.andExpect(status().isOk())
 			.andExpect(jsonPath("code").value(ResponseCode.SUCCESS))
 			.andExpect(jsonPath("message").value(ResponseMessage.SUCCESS))
-			// .andDo(document("LogIn and Get Cookie",
-			// 	requestFields(
-			// 		fieldWithPath("id").description("사용자 ID"),
-			// 		fieldWithPath("name").description("사용자 이름").optional()
-			// 	),
-			// 	responseFields(
-			// 		fieldWithPath("code").description("응답코드"),
-			// 		fieldWithPath("message").description("응답메시지")
-			// 	))
-			// )
+			.andDo(document("LogIn and Get Cookie",
+				requestFields(
+					fieldWithPath("id").description("사용자 ID"),
+					fieldWithPath("name").description("사용자 이름").optional()
+				),
+				responseFields(
+					fieldWithPath("code").description("응답코드"),
+					fieldWithPath("message").description("응답메시지")
+				))
+			)
 			.andDo(document("LogIn and Get Cookie",
 				getDocumentRequest(),
 				getDocumentResponse(),

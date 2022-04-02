@@ -43,8 +43,6 @@ bootJar {
         into "src/main/resources/static/docs"
     }
 
-    dependsOn openapi3
-
     copy{
         from "build/swagger-ui-PETRA/"
         into "src/main/resources/static/api/"

@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: heather
+    active: dev
   config:
     import: classpath:/aws.yml
 
@@ -21,9 +21,9 @@ spring:
       on-profile: "devdb"
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://link:3306/petra?validationQuery="select 1"&useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
-    username: admin
-    password: password
+    url: jdbc:mysql://petra-db.cqlbbqbjndhk.ap-northeast-2.rds.amazonaws.com:3306/petra?validationQuery="select 1"&useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password: 12345678
 
 ---
 
@@ -60,15 +60,16 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   jpa:
-    database-platform: org.hibernate.dialect.MySQL5Dialect
     open-in-view: false
+    hibernate:
+      ddl-auto: update
+      use-new-id-generator-mappings: true
+    show-sql: true
     properties:
       hibernate:
         format_sql: true
         use_sql_comments: true
-    hibernate:
-      ddl-auto: none
-    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
 
 ---
 

@@ -11,6 +11,7 @@ group = 'hsu.bee'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -42,8 +43,6 @@ bootJar {
         from "build/asciidoc/html5"
         into "src/main/resources/static/docs"
     }
-
-    dependsOn openapi3
 
     copy{
         from "build/swagger-ui-PETRA/"
@@ -85,6 +84,7 @@ dependencies {
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.assertj:assertj-core:3.21.0'
     swaggerUI("org.webjars:swagger-ui:3.52.3")
+
 }
 
 tasks.named('test') {

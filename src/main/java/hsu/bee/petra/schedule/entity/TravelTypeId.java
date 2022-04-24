@@ -15,9 +15,9 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class TravelTypeId implements Serializable {
 
-	@Column(name = "schedule_id")
-	private Long scheduleId;
+    @Column(name = "schedule_id")
+    private Long scheduleId;
 
-	@Column(name = "code_id")
-	private Long TravelCodeId;
+    @Column(name = "code_id")
+    private Long TravelCodeId;
 }

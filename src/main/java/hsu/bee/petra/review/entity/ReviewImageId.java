@@ -15,9 +15,9 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class ReviewImageId implements Serializable {
 
-	@Column(name = "review_id")
-	private Long reviewId;
+    @Column(name = "review_id")
+    private Long reviewId;
 
-	@Column(name = "image_id")
-	private Long imageId;
+    @Column(name = "image_id")
+    private Long imageId;
 }

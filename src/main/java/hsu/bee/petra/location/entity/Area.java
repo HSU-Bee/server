@@ -1,4 +1,4 @@
-package hsu.bee.petra.locatiion.entity;
+package hsu.bee.petra.location.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

@@ -2,7 +2,7 @@ package hsu.bee.petra.attraction.dto;
 
 import hsu.bee.petra.attraction.entity.Address;
 import hsu.bee.petra.attraction.entity.Theme;
-import hsu.bee.petra.locatiion.entity.Sigungu;
+import hsu.bee.petra.location.entity.Sigungu;
 import lombok.Getter;
 import lombok.Setter;
 

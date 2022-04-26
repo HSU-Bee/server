@@ -51,4 +51,10 @@ public class Schedule extends Timestamp {
 
 	@OneToMany(mappedBy = "id.scheduleId")
 	private List<TravelType> travelTypeList = new ArrayList<>();
+
+	// 임시 constructor
+	public Schedule(User user, Status status) {
+		this.user = user;
+		this.status = status;
+	}
 }

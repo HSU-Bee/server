@@ -54,4 +54,21 @@ public class Plan extends Timestamp {
 			schedule.getPlanList().add(this);
 		}
 	}
+
+	public void changeOrder(int order) {
+		this.order = order;
+	}
+
+	// memo / schedule / attraction = 복사 o
+	// id / order / startDate / endDate = 복사 x
+	public Plan copyPlan() {
+		Plan newPlan = new Plan();
+		newPlan.startDate = LocalDate.now();
+		newPlan.endDate = LocalDate.now();
+		newPlan.memo = this.getMemo();
+		newPlan.attraction = this.getAttraction();
+
+		return newPlan;
+	}
+
 }

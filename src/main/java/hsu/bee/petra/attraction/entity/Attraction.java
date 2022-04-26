@@ -10,7 +10,7 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import hsu.bee.petra.locatiion.entity.Sigungu;
+import hsu.bee.petra.location.entity.Sigungu;
 import hsu.bee.petra.time.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

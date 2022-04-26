@@ -47,9 +47,9 @@ public class TestUserController {
 
 		// when
 		ResultActions result = mockMvc.perform(
-			RestDocumentationRequestBuilders.post("/login")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(new Gson().toJson(logInDto))
+				RestDocumentationRequestBuilders.post("/login")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(new Gson().toJson(logInDto))
 		);
 
 		// then

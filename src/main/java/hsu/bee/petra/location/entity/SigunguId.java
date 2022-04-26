@@ -1,4 +1,4 @@
-package hsu.bee.petra.locatiion.entity;
+package hsu.bee.petra.location.entity;
 
 import java.io.Serializable;
 

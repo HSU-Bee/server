@@ -12,6 +12,7 @@ spring:
       "jongsu": "jongsudb, common"
       "heather": "heatherdb,common"
       "dev": "devdb,common"
+      "aws": "awsdb,common"
 
 ---
 
@@ -45,9 +46,22 @@ spring:
       on-profile: "jongsudb"
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/magnet?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
-    username:
-    password:
+    url: jdbc:mysql://127.0.0.1:3306/petra?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: root
+    password: 1234
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: "awsdb"
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://petra-db.cqlbbqbjndhk.ap-northeast-2.rds.amazonaws.com:3306/petra?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password: 12345678
+
 
 ---
 

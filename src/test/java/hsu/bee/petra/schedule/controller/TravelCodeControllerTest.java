@@ -37,6 +37,7 @@ import static util.ApiDocumentUtils.getDocumentRequest;
 import static util.ApiDocumentUtils.getDocumentResponse;
 
 @WebMvcTest(controllers = TravelCodeController.class)
+//@AutoConfigureMockMvc
 @AutoConfigureRestDocs
 class TravelCodeControllerTest {
 
@@ -60,16 +61,16 @@ class TravelCodeControllerTest {
         })).willReturn(travelCodeDto);
 
         //when
-        ResultActions result = mockMvc.perform(RestDocumentationRequestBuilders.post("/users/travel-types")
+            ResultActions result = mockMvc.perform(RestDocumentationRequestBuilders.post("/users/travel-types")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new Gson().toJson(balanceGameAnswerDto))
         );
 
         //then
         result.andExpect(status().isOk())
-                .andExpect(jsonPath("typeName").value("양귀비<위로, 위안>"))
-                .andExpect(jsonPath("typeDesc").value("도비 이즈 프리!! 도비는 자유를 찾아 떠나요~ 양귀비의 꽃말 위로, 위안과 잘 어울리는 당신! 여행을 떠날때는 주로 위로와 위안을 찾아 떠납니다. 당신은 때로는 힘든 생기면 도피하고 싶은 경향이 있습니다. 힘든 일상으로부터 도망치듯이 여행을 떠나는 당신은 여행에서 휴식과 편안함을 가장 중요하게 여기네요. 당신에게 추천하는 여행은 주로 호캉스, 스파, 식물원 등이 있습니다~"))
-                .andExpect(jsonPath("typeImageUrl").value("https://petra-bucket.s3.ap-northeast-2.amazonaws.com/psychology-test/%EB%A9%A7%EB%B0%AD%EC%A5%90.jpg"))
+                .andExpect(jsonPath("data.typeName").value("양귀비<위로, 위안>"))
+                .andExpect(jsonPath("data.typeDesc").value("도비 이즈 프리!! 도비는 자유를 찾아 떠나요~ 양귀비의 꽃말 위로, 위안과 잘 어울리는 당신! 여행을 떠날때는 주로 위로와 위안을 찾아 떠납니다. 당신은 때로는 힘든 생기면 도피하고 싶은 경향이 있습니다. 힘든 일상으로부터 도망치듯이 여행을 떠나는 당신은 여행에서 휴식과 편안함을 가장 중요하게 여기네요. 당신에게 추천하는 여행은 주로 호캉스, 스파, 식물원 등이 있습니다~"))
+                .andExpect(jsonPath("data.typeImageUrl").value("https://petra-bucket.s3.ap-northeast-2.amazonaws.com/psychology-test/%EB%A9%A7%EB%B0%AD%EC%A5%90.jpg"))
                 .andDo(document("Grant TravelType",
                         getDocumentRequest(),
                         getDocumentResponse(),
@@ -83,9 +84,11 @@ class TravelCodeControllerTest {
                                                 fieldWithPath("answer").description("밸런스 게임 응답")
                                         )
                                         .responseFields(
-                                                fieldWithPath("typeName").description("여행 타입 이름"),
-                                                fieldWithPath("typeDesc").description("여행 타입 설명"),
-                                                fieldWithPath("typeImageUrl").description("여행 타입 이미지")
+                                                fieldWithPath("code").description("응답코드"),
+                                                fieldWithPath("message").description("응답메시지"),
+                                                fieldWithPath("data.typeName").description("여행 타입 이름"),
+                                                fieldWithPath("data.typeDesc").description("여행 타입 설명"),
+                                                fieldWithPath("data.typeImageUrl").description("여행 타입 이미지")
                                         ).build()
                         ))
                 );

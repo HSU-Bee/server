@@ -10,12 +10,8 @@ import lombok.Getter;
 public class CopyScheduleDto {
 
     private String userId;
-    private long[] planIdList;
-    private long scheduleId;
-    private long newScheduleId;
-
-    public CopyScheduleDto() {
-        newScheduleId = 0L;
-    }
+    private Long[] planIdList;
+    private Long scheduleId;
+    private Long newScheduleId;
 
 }

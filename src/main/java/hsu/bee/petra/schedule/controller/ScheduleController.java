@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @RestController
@@ -33,14 +34,12 @@ public class ScheduleController {
             throw new IllegalArgumentException("PlanId 배열이 없음");
         }
 
-        if(copyScheduleDto.getScheduleId() == 0) {
+        if(copyScheduleDto.getScheduleId() == null) {
             throw new IllegalArgumentException("Schedule Id가 없음");
         }
 
         List<Long> planIdList =
-                Arrays.stream(copyScheduleDto.getPlanIdList())
-                        .boxed()
-                        .collect(Collectors.toList());
+                Stream.of(copyScheduleDto.getPlanIdList()).collect(Collectors.toList());
 
         ScheduleDto scd = planService.copyAndSavePlan(
                 copyScheduleDto.getUserId(), copyScheduleDto.getScheduleId(), 0L, planIdList
@@ -61,19 +60,16 @@ public class ScheduleController {
             throw new IllegalArgumentException("PlanId 배열이 없음");
         }
 
-        if(copyScheduleDto.getScheduleId() == 0) {
+        if(copyScheduleDto.getScheduleId() == null) {
             throw new IllegalArgumentException("ScheduleId가 없음");
         }
 
-        if(copyScheduleDto.getNewScheduleId() == 0) {
+        if(copyScheduleDto.getNewScheduleId() == null) {
             throw new IllegalArgumentException("NewScheduleId가 없음");
         }
 
-
         List<Long> planIdList =
-                Arrays.stream(copyScheduleDto.getPlanIdList())
-                        .boxed()
-                        .collect(Collectors.toList());
+                Stream.of(copyScheduleDto.getPlanIdList()).collect(Collectors.toList());
 
         ScheduleDto scd = planService.copyAndSavePlan(
                 copyScheduleDto.getUserId(), copyScheduleDto.getScheduleId(),

@@ -3,49 +3,22 @@ package hsu.bee.petra.schedule.repository;
 import hsu.bee.petra.schedule.entity.Plan;
 import hsu.bee.petra.schedule.entity.Schedule;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-@RequiredArgsConstructor
 @Repository
-public class PlanRepository {
+public interface PlanRepository extends JpaRepository<Plan, Long> {
 
-    private final EntityManager em;
+    List<Plan> findBySchedule(Schedule schedule);
 
-    public List<Plan> findBySchedule(Schedule schedule) {
-        return em.createQuery("select p from Plan p where p.schedule = :schedule order by p.order asc", Plan.class)
-                .setParameter("schedule", schedule)
-                .getResultList();
-    }
+    List<Plan> findByScheduleAndIdIn(Schedule schedule, List<Long> planIdList);
 
-    public List<Plan> findByScheduleAndOrder(Schedule schedule, List<Long> planIdList) {
-        return em.createQuery("select p from Plan p where p.schedule = :schedule and p.id in :orders " +
-                        "order by p.order asc", Plan.class)
-                .setParameter("schedule", schedule)
-                .setParameter("orders", planIdList)
-                .getResultList();
-    }
-
-    public int findMaxOrder(Schedule schedule) {
-
-        int maxOrder;
-
-        try {
-            maxOrder = em.createQuery("select max(p.order) from Plan p where p.schedule = :schedule", Integer.class)
-                    //(Integer) em.createQuery("select Max(p.order) from Plan p where p.schedule = :schedule")
-                    .setParameter("schedule", schedule)
-                    .getResultList().stream().findFirst().orElseGet(() -> 0);
-        } catch (NullPointerException e) {
-            maxOrder = 0;
-        }
-
-        return maxOrder;
-    }
-
-    public void save(Plan plan) {
-        em.persist(plan);
-    }
+    @Query("SELECT max(p.order) FROM Plan p WHERE p.schedule = :schedule")
+    Integer findMaxOrder(@Param("schedule")Schedule schedule);
 
 }

@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,65 +22,58 @@ import java.util.List;
 @Transactional
 @Service
 public class PlanService {
+
     private final PlanRepository planRepository;
     private final ScheduleRepository scheduleRepository;
     private final UserRepository userRepository;
     private final StatusRepository statusRepository;
-    private final ScheduleService scheduleService;
 
-    public ScheduleDto copyAndSavePlan(String userId, Long oldId, Long newId, List<Long> orderIdList) throws IllegalArgumentException {
+    public Long copyAndSavePlan(String userId, Long oldId, Long newId, List<Long> orderIdList) {
 
-        Schedule oldSchedule;
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("잘못된 userId 입니다"));
+        Schedule oldSchedule = scheduleRepository.findById(oldId).orElseThrow(()-> new IllegalArgumentException("존재하지 않는 oldSchedule 입니다"));
         Schedule newSchedule;
-        User user = userRepository.findOne(userId);
-
-        if(user == null) {
-            throw new IllegalArgumentException("잘못된 userId 입니다");
-        }
-
-        // oldSchedule 존재 예외 처리
-        oldSchedule = scheduleRepository.findOne(oldId);
-        if(oldSchedule == null)
-            throw new IllegalArgumentException("존재하지 않는 oldSchedule 입니다");
-
 
         // newSchedule 존재 예외 처리
         if(newId == 0L) {
-            Status status = statusRepository.findOne("여행전");
-            newSchedule = scheduleService.createSchedule(user, status);
+            Schedule nsc = Schedule.builder()
+                    .title("빈 스케줄")
+                    .adult(1)
+                    .child(0)
+                    .startDate(LocalDate.now())
+                    .endDate(LocalDate.now())
+                    .user(user)
+                    .status(statusRepository.findByName("여행전"))
+                    .build();
+            newSchedule = scheduleRepository.save(nsc);
         } else {
-            newSchedule = scheduleRepository.findOne(newId);
-            if(newSchedule == null)
-                throw new IllegalArgumentException("존재하지 않는 newSchedule 입니다");
+            newSchedule = scheduleRepository.findById(newId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 newSchedule 입니다"));
         }
 
-        List<Plan> planList = copyPlan(oldSchedule, newSchedule, orderIdList);
-        List<PlanDto> planDtoList = planToDto(planList);
-        return new ScheduleDto(oldSchedule.getUser().getId(), newSchedule.getId(), planDtoList);
-    }
-
-    public List<Plan> copyPlan(Schedule oldOne, Schedule newOne, List<Long> orderIdList) throws IllegalArgumentException {
-
-        List<Plan> copiedPlanList = new ArrayList<>();
-
-        //원본 스케줄 찾아서 해당 order Plan 전부 가져옴
-        List<Plan> planList = planRepository.findByScheduleAndOrder(oldOne, orderIdList);
+        List<Plan> planList = planRepository.findByScheduleAndIdIn(oldSchedule, orderIdList);
 
         if(planList.size() != orderIdList.size())
             throw new IllegalArgumentException("요청한 planId 중 존재하지 않는 Id가 존재합니다");
 
-        int maxOrder = planRepository.findMaxOrder(newOne);
+        Integer maxOrder = planRepository.findMaxOrder(newSchedule);
 
+        if(maxOrder == null)
+            maxOrder = 0;
 
         for (Plan plan : planList) {
-            Plan newPlan = plan.copyPlan();
-            newPlan.changeSchedule(newOne);
-            newPlan.changeOrder(++maxOrder);
+            Plan newPlan = Plan.builder()
+                    .memo(plan.getMemo())
+                    .order(++maxOrder)
+                    .startDate(LocalDate.now())
+                    .endDate(LocalDate.now())
+                    .attraction(plan.getAttraction())
+                    .build();
+
+            newPlan.changeSchedule(newSchedule);
             planRepository.save(newPlan);
-            copiedPlanList.add(newPlan);
         }
 
-        return copiedPlanList;
+        return newSchedule.getId();
     }
 
     public List<PlanDto> planToDto(List<Plan> planList) {
@@ -91,14 +85,6 @@ public class PlanService {
         }
 
         return planDtoList;
-    }
-
-    public void savePlan(Plan plan) {
-        planRepository.save(plan);
-    }
-
-    public List<Plan> findPlanBySchedule(Schedule schedule) {
-        return planRepository.findBySchedule(schedule);
     }
 
 }

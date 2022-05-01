@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,60 +23,24 @@ public class ScheduleController {
 
     private final PlanService planService;
 
-    // 기존 schedule의 plan들을 복사 -> 새 schedule의 plan에 저장
-    @PostMapping("/schedules/copy-create-schedule")
-    public Response<ScheduleDto> copyPlanToNewSchedule(@RequestBody CopyScheduleDto copyScheduleDto) {
+    @PostMapping("/schedules/plans/copy")
+    public Response<ScheduleDto> copyPlanToSchedule(@Valid @RequestBody CopyScheduleDto copyScheduleDto) {
 
-        if(copyScheduleDto.getUserId() == null) {
-            throw new IllegalArgumentException("userId가 없음");
-        }
-
-        if(copyScheduleDto.getPlanIdList() == null) {
-            throw new IllegalArgumentException("PlanId 배열이 없음");
-        }
-
-        if(copyScheduleDto.getScheduleId() == null) {
-            throw new IllegalArgumentException("Schedule Id가 없음");
-        }
+        if(copyScheduleDto.getPlanIdList().length == 0)
+            throw new IllegalArgumentException("배열이 비어있습니다.");
 
         List<Long> planIdList =
                 Stream.of(copyScheduleDto.getPlanIdList()).collect(Collectors.toList());
 
-        ScheduleDto scd = planService.copyAndSavePlan(
-                copyScheduleDto.getUserId(), copyScheduleDto.getScheduleId(), 0L, planIdList
+        Long newScheduleId = copyScheduleDto.getNewScheduleId() != null ? copyScheduleDto.getNewScheduleId() : 0L;
+
+        newScheduleId = planService.copyAndSavePlan(
+                copyScheduleDto.getUserId(), copyScheduleDto.getScheduleId(), newScheduleId, planIdList
         );
 
+        ScheduleDto scd = new ScheduleDto();
+        scd.setScheduleId(newScheduleId);
         return new Response(ResponseCode.SUCCESS, ResponseMessage.SUCCESS, scd);
     }
 
-    // 기존 schedule의 plan을 복사해서 기존 schedule의 뒤에 복사
-    @PostMapping("/schedules/copy-paste-schedule")
-    public Response<ScheduleDto> copyPlanToOldSchedule(@RequestBody CopyScheduleDto copyScheduleDto) {
-
-        if(copyScheduleDto.getUserId() == null) {
-            throw new IllegalArgumentException("userId가 없음");
-        }
-
-        if(copyScheduleDto.getPlanIdList() == null) {
-            throw new IllegalArgumentException("PlanId 배열이 없음");
-        }
-
-        if(copyScheduleDto.getScheduleId() == null) {
-            throw new IllegalArgumentException("ScheduleId가 없음");
-        }
-
-        if(copyScheduleDto.getNewScheduleId() == null) {
-            throw new IllegalArgumentException("NewScheduleId가 없음");
-        }
-
-        List<Long> planIdList =
-                Stream.of(copyScheduleDto.getPlanIdList()).collect(Collectors.toList());
-
-        ScheduleDto scd = planService.copyAndSavePlan(
-                copyScheduleDto.getUserId(), copyScheduleDto.getScheduleId(),
-                copyScheduleDto.getNewScheduleId(), planIdList
-        );
-
-        return new Response(ResponseCode.SUCCESS, ResponseMessage.SUCCESS, scd);
-    }
 }

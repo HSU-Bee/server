@@ -18,26 +18,26 @@ import lombok.NoArgsConstructor;
 @Table(name = "review_image")
 public class ReviewImage {
 
-	@EmbeddedId
-	private ReviewImageId id;
+    @EmbeddedId
+    private ReviewImageId id;
 
-	@MapsId("reviewId")
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "review_id")
-	private Review review;
+    @MapsId("reviewId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id")
+    private Review review;
 
-	@MapsId("imageId")
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "image_id")
-	private Image image;
+    @MapsId("imageId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")
+    private Image image;
 
-	public void changeReview(Review review) {
-		if(this.review != null) {
-			this.review.getReviewImageList().remove(this);
-		}
-		this.review = review;
-		if(!review.getReviewImageList().contains(this)) {
-			review.getReviewImageList().add(this);
-		}
-	}
+    public void changeReview(Review review) {
+        if(this.review != null) {
+            this.review.getReviewImageList().remove(this);
+        }
+        this.review = review;
+        if(!review.getReviewImageList().contains(this)) {
+            review.getReviewImageList().add(this);
+        }
+    }
 }

@@ -19,26 +19,26 @@ import lombok.NoArgsConstructor;
 @Table(name = "travel_type")
 public class TravelType extends Timestamp {
 
-	@EmbeddedId
-	private TravelTypeId id;
+    @EmbeddedId
+    private TravelTypeId id;
 
-	@MapsId("scheduleId")
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "schedule_id")
-	private Schedule schedule;
+    @MapsId("scheduleId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "schedule_id")
+    private Schedule schedule;
 
-	@MapsId("TravelCodeId")
-	@ManyToOne
-	@JoinColumn(name = "code_id")
-	private TravelCode travelCode;
+    @MapsId("TravelCodeId")
+    @ManyToOne
+    @JoinColumn(name = "code_id")
+    private TravelCode travelCode;
 
-	public void changeSchedule(Schedule schedule) {
-		if(this.schedule != null) {
-			this.schedule.getTravelTypeList().remove(this);
-		}
-		this.schedule = schedule;
-		if(!schedule.getTravelTypeList().contains(this)) {
-			schedule.getTravelTypeList().add(this);
-		}
-	}
+    public void changeSchedule(Schedule schedule) {
+        if(this.schedule != null) {
+            this.schedule.getTravelTypeList().remove(this);
+        }
+        this.schedule = schedule;
+        if(!schedule.getTravelTypeList().contains(this)) {
+            schedule.getTravelTypeList().add(this);
+        }
+    }
 }

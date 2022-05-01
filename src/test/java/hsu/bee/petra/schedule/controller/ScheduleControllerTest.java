@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
@@ -52,78 +53,49 @@ class ScheduleControllerTest {
 
         //given
         Long newScheduleId = 0L;
+//        String today = "2022-04-27";
         CopyScheduleDto csd = createTestCSD(newScheduleId);
         ScheduleDto scd = createTestSCD(csd.getUserId(), 2L);
-        String today = "2022-04-27";
         String testCSD = "{\"userId\":\"park1\",\"planIdList\":[13,60,61],\"scheduleId\":1}";
 
         List<Long> planIdList =
-                Arrays.stream(csd.getPlanIdList())
-                        .boxed()
-                        .collect(Collectors.toList());
+                Stream.of(csd.getPlanIdList()).collect(Collectors.toList());
 
-        System.out.println(new Gson().toJson(csd));
         given(
                 planService.copyAndSavePlan(csd.getUserId(), csd.getScheduleId(), csd.getNewScheduleId(), planIdList
-                )).willReturn(scd);
+                )).willReturn(scd.getScheduleId());
+
 
         //when
-        ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.post("/schedules/copy-create-schedule")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(testCSD)
+        ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.post("/schedules/plans/copy")
+                        .contentType(MediaType.APPLICATION_JSON)
+//                .content(new Gson().toJson(csd))
+                        .content(testCSD)
         );
 
         //then
         result.andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("data.userId").value(scd.getUserId()))
                 .andExpect(MockMvcResultMatchers.jsonPath("data.scheduleId").value(scd.getScheduleId()))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[0].planId").value(124))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[0].memo").value("plan1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[0].order").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[0].startDate").value(today))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[0].endDate").value(today))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[0].attractionName").value("국립 청태산자연휴양림"))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[0].scheduleId").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[1].planId").value(125))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[1].memo").value("plan1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[1].order").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[1].startDate").value(today))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[1].endDate").value(today))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[1].attractionName").value("국립 청태산자연휴양림"))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[1].scheduleId").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[2].planId").value(126))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[2].memo").value("plan1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[2].order").value(3))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[2].startDate").value(today))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[2].endDate").value(today))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[2].attractionName").value("국립 청태산자연휴양림"))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[2].scheduleId").value(2))
                 .andDo(document("Copy Plan to New Schedule",
-                        getDocumentRequest(),
-                        getDocumentResponse(),
-                        resource(
-                                ResourceSnippetParameters.builder()
-                                        .description("기존 스케줄에서 Plan들을 복사하여 새 스케줄을 생성 후 삽입합니다.")
-                                        .summary("기존 스케줄의 Plan -> 새 스케줄 생성 후 삽입")
-                                        .requestFields(
-                                                fieldWithPath("userId").description("사용자 ID"),
-                                                fieldWithPath("planIdList").description("복사할 PlanId 리스트"),
-                                                fieldWithPath("scheduleId").description("PlanId가 위치한 Schedule Id")
-                                        )
-                                        .responseFields(
-                                                fieldWithPath("code").description("응답코드"),
-                                                fieldWithPath("message").description("응답메시지"),
-                                                fieldWithPath("data.userId").description("사용자 ID"),
-                                                fieldWithPath("data.scheduleId").description("새로 생성한 Schedule Id"),
-                                                fieldWithPath("data.planList[*].planId").description("복사 생성된 plan id"),
-                                                fieldWithPath("data.planList[*].memo").description("plan의 메모"),
-                                                fieldWithPath("data.planList[*].order").description("schedule 내부에서 plan의 순서"),
-                                                fieldWithPath("data.planList[*].startDate").description("plan의 시작일"),
-                                                fieldWithPath("data.planList[*].endDate").description("plan의 종료일"),
-                                                fieldWithPath("data.planList[*].attractionName").description("plan 속 관광지 이름"),
-                                                fieldWithPath("data.planList[*].scheduleId").description("plan이 저장된 schedule Id")
-                                        ).build()
-                        ))
+                                getDocumentRequest(),
+                                getDocumentResponse(),
+                                resource(
+                                        ResourceSnippetParameters.builder()
+                                                .description("기존 스케줄에서 Plan들을 복사하여 다른 스케줄에 복사합니다. json의 newScheduleId키에 특정 schedule Id를 포함하여 전송하면 있으면 기존에 존재하던 스케줄에 plan을 추가해주고" +
+                                                        " newScheduleId키에 값을 넣지 않으면 새로 스케줄을 생성한 뒤 그 스케줄에 Plan을 추가하여 줍니다")
+                                                .summary("기존 스케줄의 Plan -> 다른 (기존 or 신규생성된 )스케줄에 복사")
+                                                .requestFields(
+                                                        fieldWithPath("userId").description("사용자 ID"),
+                                                        fieldWithPath("planIdList").description("복사할 Plan의 Id 리스트"),
+                                                        fieldWithPath("scheduleId").description("Plan의 Id가 위치한 Schedule Id")
+//                                                fieldWithPath("newScheduleId").description("plan들을 복사할 기존의 Schedule Id")
+                                                )
+                                                .responseFields(
+                                                        fieldWithPath("code").description("응답코드"),
+                                                        fieldWithPath("message").description("응답메시지"),
+                                                        fieldWithPath("data.scheduleId").description("새로 생성한 Schedule Id")
+                                                ).build()
+                                ))
                 );
     }
 
@@ -135,72 +107,44 @@ class ScheduleControllerTest {
         Long newScheduleId = 2L;
         String today = "2022-04-27";
         CopyScheduleDto csd = createTestCSD(newScheduleId);
-        ScheduleDto scd = createTestSCD(csd.getUserId(), newScheduleId);
+        ScheduleDto scd = createTestSCD(csd.getUserId(), 2L);
+        String testCSD = "{\"userId\":\"park1\",\"planIdList\":[13,60,61],\"scheduleId\":1}";
 
         List<Long> planIdList =
-                Arrays.stream(csd.getPlanIdList())
-                        .boxed()
-                        .collect(Collectors.toList());
+                Stream.of(csd.getPlanIdList()).collect(Collectors.toList());
+
         given(
                 planService.copyAndSavePlan(csd.getUserId(), csd.getScheduleId(), csd.getNewScheduleId(), planIdList
-                )).willReturn(scd);
+                )).willReturn(scd.getScheduleId());
+
 
         //when
-        ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.post("/schedules/copy-paste-schedule")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(csd))
+        ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.post("/schedules/plans/copy")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new Gson().toJson(csd))
+//                        .content(testCSD)
         );
 
         //then
         result.andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("data.userId").value(scd.getUserId()))
                 .andExpect(MockMvcResultMatchers.jsonPath("data.scheduleId").value(scd.getScheduleId()))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[0].planId").value(124))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[0].memo").value("plan1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[0].order").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[0].startDate").value(today))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[0].endDate").value(today))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[0].attractionName").value("국립 청태산자연휴양림"))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[0].scheduleId").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[1].planId").value(125))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[1].memo").value("plan1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[1].order").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[1].startDate").value(today))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[1].endDate").value(today))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[1].attractionName").value("국립 청태산자연휴양림"))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[1].scheduleId").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[2].planId").value(126))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[2].memo").value("plan1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[2].order").value(3))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[2].startDate").value(today))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[2].endDate").value(today))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[2].attractionName").value("국립 청태산자연휴양림"))
-                .andExpect(MockMvcResultMatchers.jsonPath("data.planList[2].scheduleId").value(2))
-                .andDo(document("Copy Plan to existing Schedule",
+                .andDo(document("Copy Plan to Old Schedule",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         resource(
                                 ResourceSnippetParameters.builder()
-                                        .description("기존 스케줄에서 Plan들을 복사하여 기존의 다른 스케줄에 삽입합니다.")
-                                        .summary("기존 스케줄의 Plan -> 기존의 다른 스케줄에 삽입")
+                                        .description("기존 스케줄에서 Plan들을 복사하여 기존 스케줄에 삽입합니다.")
+                                        .summary("기존 스케줄의 Plan -> 기존의 다른 스케줄")
                                         .requestFields(
                                                 fieldWithPath("userId").description("사용자 ID"),
-                                                fieldWithPath("planIdList").description("복사할 PlanId 리스트"),
+                                                fieldWithPath("planIdList").description("복사할 Plan의 Id 리스트"),
                                                 fieldWithPath("scheduleId").description("PlanId가 위치한 Schedule Id"),
                                                 fieldWithPath("newScheduleId").description("plan들을 복사할 기존의 Schedule Id")
                                         )
                                         .responseFields(
                                                 fieldWithPath("code").description("응답코드"),
                                                 fieldWithPath("message").description("응답메시지"),
-                                                fieldWithPath("data.userId").description("사용자 ID"),
-                                                fieldWithPath("data.scheduleId").description("새로 생성한 Schedule Id"),
-                                                fieldWithPath("data.planList[*].planId").description("복사 생성된 plan id"),
-                                                fieldWithPath("data.planList[*].memo").description("plan의 메모"),
-                                                fieldWithPath("data.planList[*].order").description("schedule 내부에서 plan의 순서"),
-                                                fieldWithPath("data.planList[*].startDate").description("plan의 시작일"),
-                                                fieldWithPath("data.planList[*].endDate").description("plan의 종료일"),
-                                                fieldWithPath("data.planList[*].attractionName").description("plan 속 관광지 이름"),
-                                                fieldWithPath("data.planList[*].scheduleId").description("plan이 저장된 schedule Id")
+                                                fieldWithPath("data.scheduleId").description("기존의 Schedule Id")
                                         ).build()
                         ))
                 );
@@ -208,7 +152,7 @@ class ScheduleControllerTest {
 
     public CopyScheduleDto createTestCSD(long newScheduleId) {
 
-        return new CopyScheduleDto("park1", new long[]{13,60,61}, 1L, newScheduleId);
+        return new CopyScheduleDto("park1", new Long[]{new Long(13), new Long(60), new Long(61)}, 1L, newScheduleId);
     }
 
     private ScheduleDto createTestSCD(String userId, Long newScheduleId) {

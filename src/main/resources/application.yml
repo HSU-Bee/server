@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: jongsu
+    active: dev
   config:
     import: classpath:/aws.yml
 

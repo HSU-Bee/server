@@ -49,59 +49,23 @@ window.swaggerSpec={
         }
       }
     },
-    "/schedules/copy-create-schedule" : {
+    "/schedules/plans/copy" : {
       "post" : {
         "tags" : [ "schedules" ],
-        "summary" : "기존 스케줄의 Plan -> 새 스케줄 생성 후 삽입",
-        "description" : "기존 스케줄에서 Plan들을 복사하여 새 스케줄을 생성 후 삽입합니다.",
-        "operationId" : "Copy Plan to New Schedule",
+        "summary" : "기존 스케줄의 Plan -> 다른 (기존 or 신규생성된 )스케줄에 복사",
+        "description" : "기존 스케줄에서 Plan들을 복사하여 다른 스케줄에 복사합니다. json의 newScheduleId키에 특정 schedule Id를 포함하여 전송하면 있으면 기존에 존재하던 스케줄에 plan을 추가해주고 newScheduleId키에 값을 넣지 않으면 새로 스케줄을 생성한 뒤 그 스케줄에 Plan을 추가하여 줍니다",
+        "operationId" : "Copy Plan to ",
         "requestBody" : {
           "content" : {
             "application/json;charset=UTF-8" : {
               "schema" : {
-                "$ref" : "#/components/schemas/schedules-copy-create-schedule-290318001"
+                "$ref" : "#/components/schemas/schedules-plans-copy386795774"
               },
               "examples" : {
                 "Copy Plan to New Schedule" : {
                   "value" : "{\r\n  \"userId\" : \"park1\",\r\n  \"planIdList\" : [ 13, 60, 61 ],\r\n  \"scheduleId\" : 1\r\n}"
-                }
-              }
-            }
-          }
-        },
-        "responses" : {
-          "200" : {
-            "description" : "200",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/schedules-copy-create-schedule1213208896"
                 },
-                "examples" : {
-                  "Copy Plan to New Schedule" : {
-                    "value" : "{\r\n  \"code\" : 2000,\r\n  \"message\" : \"성공\",\r\n  \"data\" : {\r\n    \"userId\" : \"park1\",\r\n    \"scheduleId\" : 2,\r\n    \"planList\" : [ {\r\n      \"planId\" : 124,\r\n      \"memo\" : \"plan1\",\r\n      \"order\" : 1,\r\n      \"startDate\" : \"2022-04-27\",\r\n      \"endDate\" : \"2022-04-27\",\r\n      \"attractionName\" : \"국립 청태산자연휴양림\",\r\n      \"scheduleId\" : 2\r\n    }, {\r\n      \"planId\" : 125,\r\n      \"memo\" : \"plan1\",\r\n      \"order\" : 2,\r\n      \"startDate\" : \"2022-04-27\",\r\n      \"endDate\" : \"2022-04-27\",\r\n      \"attractionName\" : \"국립 청태산자연휴양림\",\r\n      \"scheduleId\" : 2\r\n    }, {\r\n      \"planId\" : 126,\r\n      \"memo\" : \"plan1\",\r\n      \"order\" : 3,\r\n      \"startDate\" : \"2022-04-27\",\r\n      \"endDate\" : \"2022-04-27\",\r\n      \"attractionName\" : \"국립 청태산자연휴양림\",\r\n      \"scheduleId\" : 2\r\n    } ]\r\n  }\r\n}"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/schedules/copy-paste-schedule" : {
-      "post" : {
-        "tags" : [ "schedules" ],
-        "summary" : "기존 스케줄의 Plan -> 기존의 다른 스케줄에 삽입",
-        "description" : "기존 스케줄에서 Plan들을 복사하여 기존의 다른 스케줄에 삽입합니다.",
-        "operationId" : "Copy Plan to existing Schedule",
-        "requestBody" : {
-          "content" : {
-            "application/json;charset=UTF-8" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/schedules-copy-paste-schedule-597913930"
-              },
-              "examples" : {
-                "Copy Plan to existing Schedule" : {
+                "Copy Plan to Old Schedule" : {
                   "value" : "{\r\n  \"userId\" : \"park1\",\r\n  \"planIdList\" : [ 13, 60, 61 ],\r\n  \"scheduleId\" : 1,\r\n  \"newScheduleId\" : 2\r\n}"
                 }
               }
@@ -114,11 +78,14 @@ window.swaggerSpec={
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/schedules-copy-create-schedule1213208896"
+                  "$ref" : "#/components/schemas/schedules-plans-copy-996633149"
                 },
                 "examples" : {
-                  "Copy Plan to existing Schedule" : {
-                    "value" : "{\r\n  \"code\" : 2000,\r\n  \"message\" : \"성공\",\r\n  \"data\" : {\r\n    \"userId\" : \"park1\",\r\n    \"scheduleId\" : 2,\r\n    \"planList\" : [ {\r\n      \"planId\" : 124,\r\n      \"memo\" : \"plan1\",\r\n      \"order\" : 1,\r\n      \"startDate\" : \"2022-04-27\",\r\n      \"endDate\" : \"2022-04-27\",\r\n      \"attractionName\" : \"국립 청태산자연휴양림\",\r\n      \"scheduleId\" : 2\r\n    }, {\r\n      \"planId\" : 125,\r\n      \"memo\" : \"plan1\",\r\n      \"order\" : 2,\r\n      \"startDate\" : \"2022-04-27\",\r\n      \"endDate\" : \"2022-04-27\",\r\n      \"attractionName\" : \"국립 청태산자연휴양림\",\r\n      \"scheduleId\" : 2\r\n    }, {\r\n      \"planId\" : 126,\r\n      \"memo\" : \"plan1\",\r\n      \"order\" : 3,\r\n      \"startDate\" : \"2022-04-27\",\r\n      \"endDate\" : \"2022-04-27\",\r\n      \"attractionName\" : \"국립 청태산자연휴양림\",\r\n      \"scheduleId\" : 2\r\n    } ]\r\n  }\r\n}"
+                  "Copy Plan to New Schedule" : {
+                    "value" : "{\r\n  \"code\" : 2000,\r\n  \"message\" : \"성공\",\r\n  \"data\" : {\r\n    \"scheduleId\" : 2\r\n  }\r\n}"
+                  },
+                  "Copy Plan to Old Schedule" : {
+                    "value" : "{\r\n  \"code\" : 2000,\r\n  \"message\" : \"성공\",\r\n  \"data\" : {\r\n    \"scheduleId\" : 2\r\n  }\r\n}"
                   }
                 }
               }
@@ -169,65 +136,35 @@ window.swaggerSpec={
   },
   "components" : {
     "schemas" : {
-      "schedules-copy-create-schedule1213208896" : {
+      "schedules-plans-copy386795774" : {
         "type" : "object",
         "properties" : {
-          "code" : {
+          "newScheduleId" : {
             "type" : "number",
-            "description" : "응답코드"
+            "description" : "plan들을 복사할 기존의 Schedule Id"
           },
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "planList" : {
-                "type" : "array",
-                "items" : {
-                  "type" : "object",
-                  "properties" : {
-                    "endDate" : {
-                      "type" : "string",
-                      "description" : "plan의 종료일"
-                    },
-                    "memo" : {
-                      "type" : "string",
-                      "description" : "plan의 메모"
-                    },
-                    "planId" : {
-                      "type" : "number",
-                      "description" : "복사 생성된 plan id"
-                    },
-                    "scheduleId" : {
-                      "type" : "number",
-                      "description" : "plan이 저장된 schedule Id"
-                    },
-                    "startDate" : {
-                      "type" : "string",
-                      "description" : "plan의 시작일"
-                    },
-                    "attractionName" : {
-                      "type" : "string",
-                      "description" : "plan 속 관광지 이름"
-                    },
-                    "order" : {
-                      "type" : "number",
-                      "description" : "schedule 내부에서 plan의 순서"
-                    }
-                  }
-                }
-              },
-              "userId" : {
-                "type" : "string",
-                "description" : "사용자 ID"
-              },
-              "scheduleId" : {
-                "type" : "number",
-                "description" : "새로 생성한 Schedule Id"
-              }
+          "planIdList" : {
+            "type" : "array",
+            "description" : "복사할 Plan의 Id 리스트",
+            "items" : {
+              "oneOf" : [ {
+                "type" : "object"
+              }, {
+                "type" : "boolean"
+              }, {
+                "type" : "string"
+              }, {
+                "type" : "number"
+              } ]
             }
           },
-          "message" : {
+          "userId" : {
             "type" : "string",
-            "description" : "응답메시지"
+            "description" : "사용자 ID"
+          },
+          "scheduleId" : {
+            "type" : "number",
+            "description" : "PlanId가 위치한 Schedule Id"
           }
         }
       },
@@ -285,63 +222,25 @@ window.swaggerSpec={
           }
         }
       },
-      "schedules-copy-paste-schedule-597913930" : {
+      "schedules-plans-copy-996633149" : {
         "type" : "object",
         "properties" : {
-          "newScheduleId" : {
+          "code" : {
             "type" : "number",
-            "description" : "plan들을 복사할 기존의 Schedule Id"
+            "description" : "응답코드"
           },
-          "planIdList" : {
-            "type" : "array",
-            "description" : "복사할 PlanId 리스트",
-            "items" : {
-              "oneOf" : [ {
-                "type" : "object"
-              }, {
-                "type" : "boolean"
-              }, {
-                "type" : "string"
-              }, {
-                "type" : "number"
-              } ]
+          "data" : {
+            "type" : "object",
+            "properties" : {
+              "scheduleId" : {
+                "type" : "number",
+                "description" : "기존의 Schedule Id"
+              }
             }
           },
-          "userId" : {
+          "message" : {
             "type" : "string",
-            "description" : "사용자 ID"
-          },
-          "scheduleId" : {
-            "type" : "number",
-            "description" : "PlanId가 위치한 Schedule Id"
-          }
-        }
-      },
-      "schedules-copy-create-schedule-290318001" : {
-        "type" : "object",
-        "properties" : {
-          "planIdList" : {
-            "type" : "array",
-            "description" : "복사할 PlanId 리스트",
-            "items" : {
-              "oneOf" : [ {
-                "type" : "object"
-              }, {
-                "type" : "boolean"
-              }, {
-                "type" : "string"
-              }, {
-                "type" : "number"
-              } ]
-            }
-          },
-          "userId" : {
-            "type" : "string",
-            "description" : "사용자 ID"
-          },
-          "scheduleId" : {
-            "type" : "number",
-            "description" : "PlanId가 위치한 Schedule Id"
+            "description" : "응답메시지"
           }
         }
       },

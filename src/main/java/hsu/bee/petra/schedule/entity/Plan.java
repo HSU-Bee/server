@@ -13,11 +13,12 @@ import javax.persistence.ManyToOne;
 
 import hsu.bee.petra.attraction.entity.Attraction;
 import hsu.bee.petra.time.Timestamp;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class Plan extends Timestamp {
 
@@ -54,4 +55,5 @@ public class Plan extends Timestamp {
 			schedule.getPlanList().add(this);
 		}
 	}
+
 }

@@ -1,6 +1,7 @@
 package hsu.bee.petra.schedule.entity;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import hsu.bee.petra.code.entity.Status;
+import hsu.bee.petra.schedule.dto.NewScheduleDto;
 import hsu.bee.petra.time.Timestamp;
 import hsu.bee.petra.user.entity.User;
 import lombok.Getter;
@@ -51,4 +53,14 @@ public class Schedule extends Timestamp {
 
 	@OneToMany(mappedBy = "id.scheduleId")
 	private List<TravelType> travelTypeList = new ArrayList<>();
+
+	/** 생성자 */
+	public Schedule(NewScheduleDto newScheduleDto, User user) {
+		this.title = newScheduleDto.getTitle();
+		this.adult = newScheduleDto.getAdult();
+		this.child = newScheduleDto.getChild();
+		this.startDate = LocalDate.parse(newScheduleDto.getStartDate(), DateTimeFormatter.ISO_LOCAL_DATE);
+		this.endDate = LocalDate.parse(newScheduleDto.getEndDate(), DateTimeFormatter.ISO_LOCAL_DATE);
+		this.user = user;
+	}
 }

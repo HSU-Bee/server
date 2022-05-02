@@ -16,19 +16,21 @@ public class GlobalExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(IllegalArgumentException.class)
 	public Response handleIllegalArgumentException(IllegalArgumentException illegalArgumentException) {
-		return new Response<>(ResponseCode.ILLEGAL_ARGUMENT, illegalArgumentException.getMessage(),
-			illegalArgumentException);
+		log.error(illegalArgumentException.getMessage(), illegalArgumentException);
+		return new Response<>(ResponseCode.ILLEGAL_ARGUMENT, illegalArgumentException.getMessage());
 	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(IllegalStateException.class)
 	public Response handleIllegalStateException(IllegalStateException illegalStateException) {
-		return new Response<>(ResponseCode.ILLEGAL_STATE, illegalStateException.getMessage(), illegalStateException);
+		log.error(illegalStateException.getMessage(), illegalStateException);
+		return new Response<>(ResponseCode.ILLEGAL_STATE, illegalStateException.getMessage());
 	}
 
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
 	public Response handleException(Exception exception) {
+		log.error(exception.getMessage(), exception);
 		return new Response<>(ResponseCode.INTERNAL_SERVER_ERROR, exception.getMessage());
 	}
 }

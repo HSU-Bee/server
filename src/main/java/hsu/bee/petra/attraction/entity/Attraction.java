@@ -1,5 +1,6 @@
 package hsu.bee.petra.attraction.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,6 +26,9 @@ public class Attraction extends Timestamp {
 	private Long id;
 
 	private String name;
+
+	@Column(columnDefinition = "text")
+	private String imageUrl;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "address_id")

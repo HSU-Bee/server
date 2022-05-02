@@ -4,19 +4,16 @@ import hsu.bee.petra.code.entity.TravelCode;
 import hsu.bee.petra.code.repository.TravelCodeRepository;
 import hsu.bee.petra.schedule.dto.TravelCodeDto;
 import hsu.bee.petra.user.entity.User;
-import hsu.bee.petra.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional(readOnly=true)
 @Service
 public class TravelCodeService {
 
-    private final UserRepository userRepository;
+    private final BeforeUserRepository userRepository;
     private final TravelCodeRepository travelCodeRepository;
 
     @Transactional

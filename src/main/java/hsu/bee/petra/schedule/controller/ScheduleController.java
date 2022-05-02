@@ -2,10 +2,13 @@ package hsu.bee.petra.schedule.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import hsu.bee.petra.common.annotation.AuthenticatedUser;
 import hsu.bee.petra.response.Response;
 import hsu.bee.petra.response.ResponseCode;
 import hsu.bee.petra.response.ResponseMessage;
@@ -13,6 +16,7 @@ import hsu.bee.petra.schedule.dto.AnswerDto;
 import hsu.bee.petra.schedule.dto.NewScheduleDto;
 import hsu.bee.petra.schedule.dto.ScheduleDto;
 import hsu.bee.petra.schedule.service.ScheduleService;
+import hsu.bee.petra.user.entity.User;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -23,14 +27,20 @@ public class ScheduleController {
 	private final ScheduleService scheduleService;
 
 	@PostMapping("/schedule/answer")
-	public Response<List<ScheduleDto>> createSchedule(@RequestBody AnswerDto answerDto) {
-		List<ScheduleDto> scheduleRecommended = scheduleService.recommendSchedules(answerDto);
+	public Response<List<ScheduleDto>> createSchedule(@RequestBody AnswerDto answerDto, @AuthenticatedUser User user) {
+		List<ScheduleDto> scheduleRecommended = scheduleService.recommendSchedules(answerDto, user);
 		return new Response<>(ResponseCode.SUCCESS, ResponseMessage.SUCCESS, scheduleRecommended);
 	}
 
 	@PostMapping("/schedule/new")
-	public Response createSchedule(@RequestBody NewScheduleDto newScheduleDto) {
-		scheduleService.createSchedule(newScheduleDto);
+	public Response createSchedule(@RequestBody NewScheduleDto newScheduleDto, @AuthenticatedUser User user) {
+		scheduleService.createSchedule(newScheduleDto, user);
 		return success;
+	}
+
+	@GetMapping("/schedule/{scheduleId}")
+	public Response<ScheduleDto> getSchedule(@PathVariable("scheduleId") Long scheduleId) {
+		ScheduleDto schedule = scheduleService.getSchedule(scheduleId);
+		return new Response<>(ResponseCode.SUCCESS, ResponseMessage.SUCCESS, schedule);
 	}
 }

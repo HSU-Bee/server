@@ -13,6 +13,6 @@ public class NewScheduleDto {
 	private int child;
 	private String startDate;
 	private String endDate;
-	private long userId;
+	private String userId;
 	private List<PlanDto> plans;
 }

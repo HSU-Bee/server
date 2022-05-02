@@ -4,6 +4,7 @@ import hsu.bee.petra.code.entity.TravelCode;
 import hsu.bee.petra.code.repository.TravelCodeRepository;
 import hsu.bee.petra.schedule.dto.TravelCodeDto;
 import hsu.bee.petra.user.entity.User;
+import hsu.bee.petra.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,17 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TravelCodeService {
 
-    private final BeforeUserRepository userRepository;
+    private final UserRepository userRepository;
     private final TravelCodeRepository travelCodeRepository;
 
     @Transactional
     public TravelCodeDto createTravelCode(String userId, String[] answer) {
 
-        User user = userRepository.findOne(userId);
-
-        if(user == null) {
-            throw new IllegalArgumentException("잘못된 userId 입니다");
-        }
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 userId 입니다"));
 
         if(answer.length != 10)
             throw new IllegalArgumentException("정답의 개수가 맞지 않습니다.");
@@ -58,7 +55,10 @@ public class TravelCodeService {
 
         // 테이블에서 해당하는 여행 타입 저장
         TravelCode codeList = travelCodeRepository.findByCode(userType.getTypeName());
-        userRepository.saveTravelCode(userId, codeList);
+        if(codeList == null)
+            throw new RuntimeException("계산한 여행 타입이 존재하지 않습니다.");
+
+        user.setTravelCode(codeList);
 
         // 여행 타입dto 리턴
         return userType;

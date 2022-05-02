@@ -15,11 +15,12 @@ import javax.persistence.ManyToOne;
 import hsu.bee.petra.attraction.entity.Attraction;
 import hsu.bee.petra.schedule.dto.PlanDto;
 import hsu.bee.petra.time.Timestamp;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class Plan extends Timestamp {
 
@@ -62,8 +63,8 @@ public class Plan extends Timestamp {
 	public Plan(PlanDto planDto, Attraction attraction) {
 		this.memo = planDto.getMemo();
 		this.order = planDto.getOrder();
-		this.startDate = LocalDate.parse(planDto.getStartDate(), DateTimeFormatter.ISO_LOCAL_DATE);
-		this.endDate = LocalDate.parse(planDto.getEndDate(), DateTimeFormatter.ISO_LOCAL_DATE);
+		this.startDate = planDto.getStartDate();
+		this.endDate = planDto.getEndDate();
 		this.attraction = attraction;
 	}
 }

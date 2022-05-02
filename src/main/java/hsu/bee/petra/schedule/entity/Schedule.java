@@ -19,11 +19,15 @@ import hsu.bee.petra.code.entity.Status;
 import hsu.bee.petra.schedule.dto.NewScheduleDto;
 import hsu.bee.petra.time.Timestamp;
 import hsu.bee.petra.user.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Schedule extends Timestamp {
 
@@ -45,12 +49,15 @@ public class Schedule extends Timestamp {
 	private Status status;
 
 	/** 양방향 매핑 */
+	@Builder.Default
 	@OneToMany(mappedBy = "schedule")
 	private List<Plan> planList = new ArrayList<>();
 
+	@Builder.Default
 	@OneToMany(mappedBy = "id.scheduleId")
 	private List<FoodType> foodTypeList = new ArrayList<>();
 
+	@Builder.Default
 	@OneToMany(mappedBy = "id.scheduleId")
 	private List<TravelType> travelTypeList = new ArrayList<>();
 

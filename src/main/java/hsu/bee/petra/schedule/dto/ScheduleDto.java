@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.tool.hbm2ddl.SchemaUpdate;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import hsu.bee.petra.code.entity.Status;
@@ -19,6 +21,10 @@ import lombok.Setter;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ScheduleDto {
+	private String userId;
+	private Long scheduleId;
+	//private List<PlanDto> planList;
+
 	private Long id;
 	private String title;
 	private int adult;
@@ -36,4 +42,12 @@ public class ScheduleDto {
 
 	@Builder.Default
 	private List<TravelType> travelTypeList = new ArrayList<>();
+
+	public ScheduleDto() { }
+
+	public ScheduleDto(String userId, Long scheduleId, List<PlanDto> planList) {
+		this.userId = userId;
+		this.scheduleId = scheduleId;
+		this.planList = planList;
+	}
 }

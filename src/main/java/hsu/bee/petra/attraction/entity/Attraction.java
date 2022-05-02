@@ -41,7 +41,7 @@ public class Attraction extends Timestamp {
 	})
 	private Sigungu sigungu;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "theme_id")
 	private Theme theme;
 

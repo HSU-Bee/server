@@ -1,6 +1,7 @@
-package hsu.bee.petra.code.repository;
+package hsu.bee.petra.user.repository;
 
 import hsu.bee.petra.code.entity.TravelCode;
+import hsu.bee.petra.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 
 @Repository
-public interface TravelCodeRepository extends JpaRepository<TravelCode, Long> {
+public interface UserRepository extends JpaRepository<User, String> {
 
-    TravelCode findByCode(String code);
 }

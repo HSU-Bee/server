@@ -15,6 +15,7 @@ import org.springframework.web.util.WebUtils;
 
 import hsu.bee.petra.common.annotation.AuthenticatedUser;
 import hsu.bee.petra.user.entity.User;
+import hsu.bee.petra.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

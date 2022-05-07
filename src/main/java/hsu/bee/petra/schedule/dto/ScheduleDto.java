@@ -12,6 +12,7 @@ import hsu.bee.petra.code.entity.Status;
 import hsu.bee.petra.schedule.entity.FoodType;
 import hsu.bee.petra.schedule.entity.TravelType;
 import hsu.bee.petra.user.entity.User;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ScheduleDto {
 	private String userId;

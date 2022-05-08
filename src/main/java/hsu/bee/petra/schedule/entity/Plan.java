@@ -1,6 +1,7 @@
 package hsu.bee.petra.schedule.entity;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import hsu.bee.petra.attraction.entity.Attraction;
+import hsu.bee.petra.schedule.dto.PlanDto;
 import hsu.bee.petra.time.Timestamp;
 import lombok.*;
 
@@ -46,6 +48,7 @@ public class Plan extends Timestamp {
 	@JoinColumn(name = "attraction_id")
 	private Attraction attraction;
 
+	/** 양방향 매핑 */
 	public void changeSchedule(Schedule schedule) {
 		if(this.schedule != null) {
 			this.schedule.getPlanList().remove(this);
@@ -56,4 +59,12 @@ public class Plan extends Timestamp {
 		}
 	}
 
+	/** 생성자 */
+	public Plan(PlanDto planDto, Attraction attraction) {
+		this.memo = planDto.getMemo();
+		this.order = planDto.getOrder();
+		this.startDate = planDto.getStartDate();
+		this.endDate = planDto.getEndDate();
+		this.attraction = attraction;
+	}
 }

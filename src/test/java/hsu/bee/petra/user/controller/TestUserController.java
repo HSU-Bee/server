@@ -25,12 +25,15 @@ import com.google.gson.Gson;
 import hsu.bee.petra.response.ResponseCode;
 import hsu.bee.petra.response.ResponseMessage;
 import hsu.bee.petra.user.dto.LogInDto;
+import hsu.bee.petra.user.repository.UserRepository;
 import hsu.bee.petra.user.service.UserService;
 
 @WebMvcTest(UserController.class)
 @AutoConfigureRestDocs
-// @ExtendWith({RestDocumentationExtension.class, SpringExtension.class, MockitoExtension.class})
 public class TestUserController {
+
+	@MockBean
+	private UserRepository userRepository;
 
 	@MockBean
 	private UserService userService;

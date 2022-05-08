@@ -1,15 +1,14 @@
 package hsu.bee.petra.schedule.repository;
 
-import hsu.bee.petra.schedule.entity.Plan;
-import hsu.bee.petra.schedule.entity.Schedule;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import java.util.List;
+import hsu.bee.petra.schedule.entity.Plan;
+import hsu.bee.petra.schedule.entity.Schedule;
 
 @Repository
 public interface PlanRepository extends JpaRepository<Plan, Long> {

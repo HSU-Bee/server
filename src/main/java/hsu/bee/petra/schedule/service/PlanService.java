@@ -1,9 +1,14 @@
 package hsu.bee.petra.schedule.service;
 
-import hsu.bee.petra.code.entity.Status;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import hsu.bee.petra.code.repository.StatusRepository;
 import hsu.bee.petra.schedule.dto.PlanDto;
-import hsu.bee.petra.schedule.dto.ScheduleDto;
 import hsu.bee.petra.schedule.entity.Plan;
 import hsu.bee.petra.schedule.entity.Schedule;
 import hsu.bee.petra.schedule.repository.PlanRepository;
@@ -11,12 +16,6 @@ import hsu.bee.petra.schedule.repository.ScheduleRepository;
 import hsu.bee.petra.user.entity.User;
 import hsu.bee.petra.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import hsu.bee.petra.response.Response;
 import hsu.bee.petra.response.ResponseCode;
+import hsu.bee.petra.response.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -17,20 +18,20 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(IllegalArgumentException.class)
 	public Response handleIllegalArgumentException(IllegalArgumentException illegalArgumentException) {
 		log.error(illegalArgumentException.getMessage(), illegalArgumentException);
-		return new Response<>(ResponseCode.ILLEGAL_ARGUMENT, illegalArgumentException.getMessage());
+		return new Response<>(ResponseCode.ILLEGAL_ARGUMENT, ResponseMessage.INVALID_PARAMETER);
 	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(IllegalStateException.class)
 	public Response handleIllegalStateException(IllegalStateException illegalStateException) {
 		log.error(illegalStateException.getMessage(), illegalStateException);
-		return new Response<>(ResponseCode.ILLEGAL_STATE, illegalStateException.getMessage());
+		return new Response<>(ResponseCode.ILLEGAL_STATE, ResponseMessage.REQUIRED_PARAMETER);
 	}
 
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
 	public Response handleException(Exception exception) {
 		log.error(exception.getMessage(), exception);
-		return new Response<>(ResponseCode.INTERNAL_SERVER_ERROR, exception.getMessage());
+		return new Response<>(ResponseCode.INTERNAL_SERVER_ERROR, ResponseMessage.FAIL);
 	}
 }

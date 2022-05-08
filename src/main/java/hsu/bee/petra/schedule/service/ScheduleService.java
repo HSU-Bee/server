@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import hsu.bee.petra.attraction.entity.Attraction;
 import hsu.bee.petra.attraction.repository.AttractionRepository;
@@ -50,17 +51,15 @@ public class ScheduleService {
 		}
 	}
 
+	@Transactional
 	public ScheduleDto getSchedule(Long scheduleId) {
 		Optional<Schedule> optionalSchedule = scheduleRepository.findById(scheduleId);
 		if(optionalSchedule.isEmpty()) {
-			IllegalArgumentException illegalArgumentException = new IllegalArgumentException(
+			throw new IllegalArgumentException(
 				"유효하지 않은 scheduleId 입니다. (입력된 scheduleId : " + scheduleId + ")");
-			log.error(
-				"ScheduleService :: getSchedule(Long id) "
-					+ "- 유효하지 않은 scheduleId 입니다. (입력된 scheduleId : " + scheduleId + ")",
-				illegalArgumentException);
 		}
 		Schedule schedule = optionalSchedule.get();
+		System.out.println(schedule.getPlanList().get(0).getMemo());
 		List<PlanDto> planDtoList = changePlanListToPlanDtoList(schedule.getPlanList());
 
 		return ScheduleDto.builder()
@@ -73,6 +72,7 @@ public class ScheduleService {
 	}
 
 	private List<PlanDto> changePlanListToPlanDtoList(List<Plan> planList) {
+		System.out.println(planList.get(0).getMemo());
 		List<PlanDto> planDtoList = new ArrayList<>();
 		for(Plan plan : planList) {
 			planDtoList.add(PlanDto.convertPlanDto(plan));

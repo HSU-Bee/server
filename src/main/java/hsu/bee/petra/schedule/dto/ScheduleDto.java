@@ -23,9 +23,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ScheduleDto {
-	private String userId;
-	private Long scheduleId;
-	//private List<PlanDto> planList;
 
 	private Long id;
 	private String title;
@@ -45,11 +42,4 @@ public class ScheduleDto {
 	@Builder.Default
 	private List<TravelType> travelTypeList = new ArrayList<>();
 
-	public ScheduleDto() { }
-
-	public ScheduleDto(String userId, Long scheduleId, List<PlanDto> planList) {
-		this.userId = userId;
-		this.scheduleId = scheduleId;
-		this.planList = planList;
-	}
 }

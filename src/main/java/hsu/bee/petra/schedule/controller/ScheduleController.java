@@ -17,6 +17,7 @@ import hsu.bee.petra.response.Response;
 import hsu.bee.petra.response.ResponseCode;
 import hsu.bee.petra.response.ResponseMessage;
 import hsu.bee.petra.schedule.dto.AnswerDto;
+import hsu.bee.petra.schedule.dto.BasicScheduleInfoDto;
 import hsu.bee.petra.schedule.dto.CopyScheduleDto;
 import hsu.bee.petra.schedule.dto.NewScheduleDto;
 import hsu.bee.petra.schedule.dto.ScheduleDto;
@@ -34,7 +35,7 @@ public class ScheduleController {
 	private final PlanService planService;
 
 	@PostMapping("/schedules/plans/copy")
-	public Response<ScheduleDto> copyPlanToSchedule(@Valid @RequestBody CopyScheduleDto copyScheduleDto) {
+	public Response<BasicScheduleInfoDto> copyPlanToSchedule(@Valid @RequestBody CopyScheduleDto copyScheduleDto) {
 
 		if(copyScheduleDto.getPlanIdList().length == 0)
 			throw new IllegalArgumentException("배열이 비어있습니다.");
@@ -48,7 +49,7 @@ public class ScheduleController {
 			copyScheduleDto.getUserId(), copyScheduleDto.getScheduleId(), newScheduleId, planIdList
 		);
 
-		ScheduleDto scd = new ScheduleDto();
+		BasicScheduleInfoDto scd = new BasicScheduleInfoDto();
 		scd.setScheduleId(newScheduleId);
 		return new Response(ResponseCode.SUCCESS, ResponseMessage.SUCCESS, scd);
 	}

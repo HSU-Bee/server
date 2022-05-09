@@ -54,6 +54,7 @@ public class Plan extends Timestamp {
 			this.schedule.getPlanList().remove(this);
 		}
 		this.schedule = schedule;
+		System.out.println("==================" + schedule.getPlanList());
 		if (!schedule.getPlanList().contains(this)) {
 			schedule.getPlanList().add(this);
 		}

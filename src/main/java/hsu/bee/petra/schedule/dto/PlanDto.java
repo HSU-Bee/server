@@ -28,6 +28,8 @@ public class PlanDto {
 	private String attractionName;
 	private AttractionDto attraction;
 
+	public PlanDto() { }
+
 	public PlanDto(Plan plan) {
 		this.id = plan.getId();
 		this.memo = plan.getMemo();

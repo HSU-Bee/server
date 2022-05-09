@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import hsu.bee.petra.attraction.entity.Attraction;
 import hsu.bee.petra.attraction.repository.AttractionRepository;
+import hsu.bee.petra.code.entity.Status;
+import hsu.bee.petra.code.repository.StatusRepository;
 import hsu.bee.petra.schedule.dto.AnswerDto;
 import hsu.bee.petra.schedule.dto.NewScheduleDto;
 import hsu.bee.petra.schedule.dto.PlanDto;
@@ -31,15 +33,18 @@ public class ScheduleService {
 	private final AttractionRepository attractionRepository;
 	private final ScheduleRepository scheduleRepository;
 	private final PlanRepository planRepository;
+	private final StatusRepository statusRepository;
 
 	public List<ScheduleDto> recommendSchedules(AnswerDto answerDto, User user) {
 		List<ScheduleDto> schedulesRecommended = new ArrayList<>();
 		return schedulesRecommended;
 	}
 
+	@Transactional
 	public void createSchedule(NewScheduleDto newScheduleDto, User user) {
 		// date 형식 검사 생략
-		Schedule schedule = new Schedule(newScheduleDto, user);
+		Optional<Status> optionalStatus = statusRepository.findById(1L);
+		Schedule schedule = new Schedule(newScheduleDto, user, optionalStatus.get());
 		scheduleRepository.save(schedule);
 
 		Plan plan;

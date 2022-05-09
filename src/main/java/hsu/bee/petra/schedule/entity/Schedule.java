@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -62,12 +63,16 @@ public class Schedule extends Timestamp {
 	private List<TravelType> travelTypeList = new ArrayList<>();
 
 	/** 생성자 */
-	public Schedule(NewScheduleDto newScheduleDto, User user) {
+	public Schedule(NewScheduleDto newScheduleDto, User user, Status status) {
 		this.title = newScheduleDto.getTitle();
 		this.adult = newScheduleDto.getAdult();
 		this.child = newScheduleDto.getChild();
 		this.startDate = LocalDate.parse(newScheduleDto.getStartDate(), DateTimeFormatter.ISO_LOCAL_DATE);
 		this.endDate = LocalDate.parse(newScheduleDto.getEndDate(), DateTimeFormatter.ISO_LOCAL_DATE);
 		this.user = user;
+		this.status = status;
+		this.planList = new ArrayList<>();
+		this.foodTypeList = new ArrayList<>();
+		this.travelTypeList = new ArrayList<>();
 	}
 }

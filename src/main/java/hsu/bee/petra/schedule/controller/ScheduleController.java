@@ -71,5 +71,4 @@ public class ScheduleController {
 		ScheduleDto schedule = scheduleService.getSchedule(scheduleId);
 		return new Response<>(ResponseCode.SUCCESS, ResponseMessage.SUCCESS, schedule);
 	}
-
 }

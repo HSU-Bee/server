@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.*;
 import org.hibernate.tool.hbm2ddl.SchemaUpdate;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -12,10 +13,6 @@ import hsu.bee.petra.code.entity.Status;
 import hsu.bee.petra.schedule.entity.FoodType;
 import hsu.bee.petra.schedule.entity.TravelType;
 import hsu.bee.petra.user.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @Setter

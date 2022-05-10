@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import hsu.bee.petra.attraction.entity.Attraction;
+import hsu.bee.petra.attraction.repository.AttractionRepository;
+import hsu.bee.petra.schedule.dto.ScheduleDto;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +30,7 @@ public class PlanService {
     private final ScheduleRepository scheduleRepository;
     private final UserRepository userRepository;
     private final StatusRepository statusRepository;
+    private final AttractionRepository attractionRepository;
 
     public Long copyAndSavePlan(String userId, Long oldId, Long newId, List<Long> orderIdList) {
 
@@ -84,6 +89,34 @@ public class PlanService {
         }
 
         return planDtoList;
+    }
+
+    public Long createPlan(PlanDto planDto) {
+
+        Schedule schedule = scheduleRepository.findById(planDto.getScheduleId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Schedule 입니다."));
+
+        Attraction attraction;
+        try {
+            attraction = attractionRepository.findByName(planDto.getAttractionName()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Attraction 입니다."));
+        } catch(IncorrectResultSizeDataAccessException e) {
+            throw new IllegalArgumentException("중복되는 Attraction이 존재합니다.");
+        }
+
+        int order = planRepository.findMaxOrder(schedule);
+
+        Plan newPlan = Plan.builder()
+                .memo(planDto.getMemo())
+                .order(++order)
+                .startDate(planDto.getStartDate())
+                .endDate(planDto.getEndDate())
+                .attraction(attraction)
+                .build();
+
+        newPlan.changeSchedule(schedule);
+        newPlan = planRepository.save(newPlan);
+
+        return newPlan.getSchedule().getId();
     }
 
 }

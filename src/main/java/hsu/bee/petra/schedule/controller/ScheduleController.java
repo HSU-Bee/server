@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import javax.validation.Valid;
 
+import hsu.bee.petra.schedule.dto.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,11 +17,6 @@ import hsu.bee.petra.common.annotation.AuthenticatedUser;
 import hsu.bee.petra.response.Response;
 import hsu.bee.petra.response.ResponseCode;
 import hsu.bee.petra.response.ResponseMessage;
-import hsu.bee.petra.schedule.dto.AnswerDto;
-import hsu.bee.petra.schedule.dto.BasicScheduleInfoDto;
-import hsu.bee.petra.schedule.dto.CopyScheduleDto;
-import hsu.bee.petra.schedule.dto.NewScheduleDto;
-import hsu.bee.petra.schedule.dto.ScheduleDto;
 import hsu.bee.petra.schedule.service.PlanService;
 import hsu.bee.petra.schedule.service.ScheduleService;
 import hsu.bee.petra.user.entity.User;
@@ -70,5 +66,12 @@ public class ScheduleController {
 	public Response<ScheduleDto> getSchedule(@PathVariable("scheduleId") Long scheduleId) {
 		ScheduleDto schedule = scheduleService.getSchedule(scheduleId);
 		return new Response<>(ResponseCode.SUCCESS, ResponseMessage.SUCCESS, schedule);
+	}
+
+	@PostMapping(value="/schedules/plan")
+	public Response<Long> createPlan(@Valid @RequestBody PlanDto planDto) {
+
+		Long scheduleId = planService.createPlan(planDto);
+		return new Response(ResponseCode.SUCCESS, ResponseMessage.SUCCESS, scheduleId);
 	}
 }

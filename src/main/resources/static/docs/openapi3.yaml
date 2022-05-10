@@ -4,7 +4,7 @@ info:
   description: PETRA API description
   version: 0.1.0
 servers:
-- url: http://localhost:8080
+- url: http://15.165.93.55:8080
 tags: []
 paths:
   /login:
@@ -32,6 +32,59 @@ paths:
               examples:
                 LogIn and Get Cookie:
                   value: "{\r\n  \"code\" : 2000,\r\n  \"message\" : \"성공\"\r\n}"
+  /mypage:
+    get:
+      tags:
+      - mypage
+      summary: mypage조회
+      description: "mypage에서 사용자, 스케줄 개수, 리뷰 개수를 조회합니다."
+      operationId: 마이페이지 조회
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mypage2104152416'
+              examples:
+                마이페이지 조회:
+                  value: "{\r\n  \"code\" : 2000,\r\n  \"message\" : \"성공\",\r\n \
+                    \ \"data\" : {\r\n    \"userId\" : \"park1\",\r\n    \"myScheduleCount\"\
+                    \ : 16,\r\n    \"myReviewCount\" : 0\r\n  }\r\n}"
+  /schedule/{scheduleId}:
+    get:
+      tags:
+      - schedule
+      summary: 개별 스케줄 조회
+      description: 스케줄 idx로 스케줄에 대한 상세정보를 조회합니다.
+      operationId: 개별 스케줄 조회
+      parameters:
+      - name: scheduleId
+        in: path
+        description: 조회를 원하는 스케줄 idx
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schedule-scheduleId1469518433'
+              examples:
+                개별 스케줄 조회:
+                  value: "{\r\n  \"code\" : 2000,\r\n  \"message\" : \"성공\",\r\n \
+                    \ \"data\" : {\r\n    \"id\" : 1,\r\n    \"title\" : \"1박 2일 강\
+                    릉 여행\",\r\n    \"adult\" : 0,\r\n    \"child\" : 0,\r\n    \"\
+                    startDate\" : \"2022-05-10\",\r\n    \"endDate\" : \"2022-05-10\"\
+                    ,\r\n    \"planList\" : [ {\r\n      \"id\" : 1,\r\n      \"memo\"\
+                    \ : \"밥부터 먹자\",\r\n      \"order\" : 1,\r\n      \"startDate\"\
+                    \ : \"2022-04-08\",\r\n      \"endDate\" : \"2022-04-08\",\r\n\
+                    \      \"attraction\" : {\r\n        \"id\" : 1,\r\n        \"\
+                    name\" : \"강릉초당순두부\",\r\n        \"address\" : \"강릉시 123-1\",\r\
+                    \n        \"category\" : \"식당\"\r\n      }\r\n    } ]\r\n  }\r\
+                    \n}"
   /schedules/plans/copy:
     post:
       tags:
@@ -157,6 +210,92 @@ components:
             typeName:
               type: string
               description: 여행 타입 이름
+        message:
+          type: string
+          description: 응답메시지
+    schedule-scheduleId1469518433:
+      type: object
+      properties:
+        code:
+          type: number
+          description: 응답코드
+        data:
+          type: object
+          properties:
+            endDate:
+              type: string
+              description: 스케줄 종료일자
+            planList:
+              type: array
+              items:
+                type: object
+                properties:
+                  attraction:
+                    type: object
+                    properties:
+                      address:
+                        type: string
+                        description: 관광지 주소
+                      name:
+                        type: string
+                        description: 관광지 이름
+                      id:
+                        type: number
+                        description: 관광지 idx
+                      category:
+                        type: string
+                        description: 관광지 카테고리
+                  endDate:
+                    type: string
+                    description: 계획 종료일자
+                  memo:
+                    type: string
+                    description: 계획 메모
+                  id:
+                    type: number
+                    description: 계획 idx
+                  startDate:
+                    type: string
+                    description: 계획 시작일자
+                  order:
+                    type: number
+                    description: 계획의 순서
+            id:
+              type: number
+              description: 스케줄 idx
+            adult:
+              type: number
+              description: 어른 인원수
+            title:
+              type: string
+              description: 스케줄 제목
+            startDate:
+              type: string
+              description: 스케줄 시작일자
+            child:
+              type: number
+              description: 아이 인원수
+        message:
+          type: string
+          description: 응답메시지
+    mypage2104152416:
+      type: object
+      properties:
+        code:
+          type: number
+          description: 응답코드
+        data:
+          type: object
+          properties:
+            myReviewCount:
+              type: number
+              description: 내가 작성한 review 수
+            myScheduleCount:
+              type: number
+              description: 내가 작성한 schedule 수
+            userId:
+              type: string
+              description: 내 id
         message:
           type: string
           description: 응답메시지

@@ -30,7 +30,7 @@ public class ScheduleController {
 	private final ScheduleService scheduleService;
 	private final PlanService planService;
 
-	@PostMapping("/schedules/plans/copy")
+	@PostMapping("/schedule/plans/copy")
 	public Response<BasicScheduleInfoDto> copyPlanToSchedule(@Valid @RequestBody CopyScheduleDto copyScheduleDto) {
 
 		if(copyScheduleDto.getPlanIdList().length == 0)
@@ -68,7 +68,7 @@ public class ScheduleController {
 		return new Response<>(ResponseCode.SUCCESS, ResponseMessage.SUCCESS, schedule);
 	}
 
-	@PostMapping(value="/schedules/plan")
+	@PostMapping(value="/schedule/plan")
 	public Response<Long> createPlan(@Valid @RequestBody PlanDto planDto) {
 
 		Long scheduleId = planService.createPlan(planDto);

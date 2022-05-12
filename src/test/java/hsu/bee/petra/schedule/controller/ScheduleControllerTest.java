@@ -60,6 +60,70 @@ class ScheduleControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
+
+	@Test
+	@DisplayName("plan 데이터 받아서 새로운 plan 생성")
+	public void createPlan() throws Exception{
+
+		//given
+		Long scheduleId = 2L;
+		Cookie cookie = new Cookie("userCookie", "park1");
+		PlanDto planDto = PlanDto.builder()
+				.memo("밥부터 먹자")
+				.startDate(LocalDate.parse("2022-04-08", DateTimeFormatter.ISO_LOCAL_DATE))
+				.endDate(LocalDate.parse("2022-04-08", DateTimeFormatter.ISO_LOCAL_DATE))
+				.scheduleId(scheduleId)
+				.attractionName("광화문")
+				.build();
+
+		String tempApi = "{\n" +
+				"    \"scheduleId\": 2,\n" +
+				"    \"attractionName\": \"광화문\",\n" +
+				"    \"memo\": \"밥부터 먹자\",\n" +
+				"    \"startDate\": \"2022-04-08\",\n" +
+				"    \"endDate\": \"2022-04-08\"\n" +
+				"}";
+
+		doReturn(scheduleId).when(planService).createPlan(planDto);
+
+		//when
+		ResultActions result = mockMvc.perform(
+				RestDocumentationRequestBuilders.post("/schedule/plan")
+						.contentType(MediaType.APPLICATION_JSON)
+						.cookie(cookie)
+						.content(tempApi)
+//						.content(new Gson().toJson(planDto))
+		);
+
+		//then
+		result.andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("data").value(scheduleId))
+				.andDo(document("Create Plan",
+						getDocumentRequest(),
+						getDocumentResponse(),
+						resource(
+								ResourceSnippetParameters.builder()
+										.description("plan에 들어가는 정보를 받아와서 plan을 생성합니다.")
+										.summary("plan 생성")
+										// .requestHeaders(
+										// 	headerWithName("Cookie").description("로그인 시 발급받은 쿠키")
+										// )
+//										.requestFields(
+//												fieldWithPath("memo").description("plan에 저장할 메모"),
+//												fieldWithPath("startDate").description("plan을 시작하는 날짜"),
+//												fieldWithPath("endDate").description("plan을 끝내는 날짜"),
+//												fieldWithPath("scheduleId").description("저장할 schedule의 id"),
+//												fieldWithPath("attractionName").description("plan의 목적지")
+//										)
+										.responseFields(
+												fieldWithPath("code").description("응답코드"),
+												fieldWithPath("message").description("응답메시지"),
+												fieldWithPath("data").description("Plan을 저장한 scheduleId")
+										).build()
+						))
+				);
+	}
+
 	@Test
 	@DisplayName("ScheduleId 받아서 단일 스케줄 건 조회")
 	public void testGetSchedule() throws Exception {
@@ -67,107 +131,107 @@ class ScheduleControllerTest {
 		Cookie cookie = new Cookie("userCookie", "heather");
 		Long scheduleId = 1L;
 		AttractionDto attractionDto = AttractionDto.builder()
-			.id(1L)
-			.name("강릉초당순두부")
-			.address("강릉시 123-1")
-			.category("식당")
-			.build();
+				.id(1L)
+				.name("강릉초당순두부")
+				.address("강릉시 123-1")
+				.category("식당")
+				.build();
 
 		PlanDto planDto = PlanDto.builder()
-			.id(1L)
-			.memo("밥부터 먹자")
-			.order(1)
-			.startDate(LocalDate.parse("2022-04-08", DateTimeFormatter.ISO_LOCAL_DATE))
-			.endDate(LocalDate.parse("2022-04-08", DateTimeFormatter.ISO_LOCAL_DATE))
-			.attraction(attractionDto)
-			.build();
+				.id(1L)
+				.memo("밥부터 먹자")
+				.order(1)
+				.startDate(LocalDate.parse("2022-04-08", DateTimeFormatter.ISO_LOCAL_DATE))
+				.endDate(LocalDate.parse("2022-04-08", DateTimeFormatter.ISO_LOCAL_DATE))
+				.attraction(attractionDto)
+				.build();
 
 		List<PlanDto> planDtoList = new ArrayList<>();
 		planDtoList.add(planDto);
 
 		ScheduleDto scheduleDto = ScheduleDto.builder()
-			.id(scheduleId)
-			.title("1박 2일 강릉 여행")
-			.startDate(LocalDate.now())
-			.endDate(LocalDate.now())
-			.planList(planDtoList)
-			.build();
+				.id(scheduleId)
+				.title("1박 2일 강릉 여행")
+				.startDate(LocalDate.now())
+				.endDate(LocalDate.now())
+				.planList(planDtoList)
+				.build();
 
 		doReturn(scheduleDto).when(scheduleService).getSchedule(scheduleId);
 
 		// when
 		ResultActions result = mockMvc.perform(
-			RestDocumentationRequestBuilders.get("/schedule/{scheduleId}", 1)
-				.cookie(cookie)
+				RestDocumentationRequestBuilders.get("/schedule/{scheduleId}", 1)
+						.cookie(cookie)
 		);
 
 		// then
 		result.andExpect(status().isOk())
-			.andExpect(jsonPath("code").value(ResponseCode.SUCCESS))
-			.andExpect(jsonPath("message").value(ResponseMessage.SUCCESS))
-			.andDo(document("개별 스케줄 조회",
-					pathParameters(
-						parameterWithName("scheduleId").description("조회를 원하는 스케줄 idx")
-					),
-					// requestHeaders(
-					// 	headerWithName("cookie").description("로그인 시 발급받은 쿠키")
-					// ),
-					responseFields(
-						fieldWithPath("code").description("응답코드"),
-						fieldWithPath("message").description("응답메시지"),
-						fieldWithPath("data.id").description("스케줄 idx"),
-						fieldWithPath("data.title").description("스케줄 제목"),
-						fieldWithPath("data.adult").description("어른 인원수"),
-						fieldWithPath("data.child").description("아이 인원수"),
-						fieldWithPath("data.startDate").description("스케줄 시작일자"),
-						fieldWithPath("data.endDate").description("스케줄 종료일자"),
-						fieldWithPath("data.planList[0].id").description("계획 idx"),
-						fieldWithPath("data.planList[0].memo").description("계획 메모"),
-						fieldWithPath("data.planList[0].order").description("계획의 순서"),
-						fieldWithPath("data.planList[0].startDate").description("계획 시작일자"),
-						fieldWithPath("data.planList[0].endDate").description("계획 종료일자"),
-						fieldWithPath("data.planList[0].attraction.id").description("관광지 idx"),
-						fieldWithPath("data.planList[0].attraction.name").description("관광지 이름"),
-						fieldWithPath("data.planList[0].attraction.address").description("관광지 주소"),
-						fieldWithPath("data.planList[0].attraction.category").description("관광지 카테고리")
-					)
+				.andExpect(jsonPath("code").value(ResponseCode.SUCCESS))
+				.andExpect(jsonPath("message").value(ResponseMessage.SUCCESS))
+				.andDo(document("개별 스케줄 조회",
+								pathParameters(
+										parameterWithName("scheduleId").description("조회를 원하는 스케줄 idx")
+								),
+								// requestHeaders(
+								// 	headerWithName("cookie").description("로그인 시 발급받은 쿠키")
+								// ),
+								responseFields(
+										fieldWithPath("code").description("응답코드"),
+										fieldWithPath("message").description("응답메시지"),
+										fieldWithPath("data.id").description("스케줄 idx"),
+										fieldWithPath("data.title").description("스케줄 제목"),
+										fieldWithPath("data.adult").description("어른 인원수"),
+										fieldWithPath("data.child").description("아이 인원수"),
+										fieldWithPath("data.startDate").description("스케줄 시작일자"),
+										fieldWithPath("data.endDate").description("스케줄 종료일자"),
+										fieldWithPath("data.planList[0].id").description("계획 idx"),
+										fieldWithPath("data.planList[0].memo").description("계획 메모"),
+										fieldWithPath("data.planList[0].order").description("계획의 순서"),
+										fieldWithPath("data.planList[0].startDate").description("계획 시작일자"),
+										fieldWithPath("data.planList[0].endDate").description("계획 종료일자"),
+										fieldWithPath("data.planList[0].attraction.id").description("관광지 idx"),
+										fieldWithPath("data.planList[0].attraction.name").description("관광지 이름"),
+										fieldWithPath("data.planList[0].attraction.address").description("관광지 주소"),
+										fieldWithPath("data.planList[0].attraction.category").description("관광지 카테고리")
+								)
+						)
 				)
-			)
-			.andDo(document("개별 스케줄 조회",
-				getDocumentRequest(),
-				getDocumentResponse(),
-				resource(
-					ResourceSnippetParameters.builder()
-						.description("스케줄 idx로 스케줄에 대한 상세정보를 조회합니다.")
-						.summary("개별 스케줄 조회")
-						.pathParameters(
-							parameterWithName("scheduleId").description("조회를 원하는 스케줄 idx")
-						)
-						// .requestHeaders(
-						// 	headerWithName("cookie").description("로그인 시 발급받은 쿠키")
-						// )
-						.responseFields(
-							fieldWithPath("code").description("응답코드"),
-							fieldWithPath("message").description("응답메시지"),
-							fieldWithPath("data.id").description("스케줄 idx"),
-							fieldWithPath("data.title").description("스케줄 제목"),
-							fieldWithPath("data.adult").description("어른 인원수"),
-							fieldWithPath("data.child").description("아이 인원수"),
-							fieldWithPath("data.startDate").description("스케줄 시작일자"),
-							fieldWithPath("data.endDate").description("스케줄 종료일자"),
-							fieldWithPath("data.planList[0].id").description("계획 idx"),
-							fieldWithPath("data.planList[0].memo").description("계획 메모"),
-							fieldWithPath("data.planList[0].order").description("계획의 순서"),
-							fieldWithPath("data.planList[0].startDate").description("계획 시작일자"),
-							fieldWithPath("data.planList[0].endDate").description("계획 종료일자"),
-							fieldWithPath("data.planList[0].attraction.id").description("관광지 idx"),
-							fieldWithPath("data.planList[0].attraction.name").description("관광지 이름"),
-							fieldWithPath("data.planList[0].attraction.address").description("관광지 주소"),
-							fieldWithPath("data.planList[0].attraction.category").description("관광지 카테고리")
-						)
-						.build()
-				))
-			);
+				.andDo(document("개별 스케줄 조회",
+						getDocumentRequest(),
+						getDocumentResponse(),
+						resource(
+								ResourceSnippetParameters.builder()
+										.description("스케줄 idx로 스케줄에 대한 상세정보를 조회합니다.")
+										.summary("개별 스케줄 조회")
+										.pathParameters(
+												parameterWithName("scheduleId").description("조회를 원하는 스케줄 idx")
+										)
+										// .requestHeaders(
+										// 	headerWithName("cookie").description("로그인 시 발급받은 쿠키")
+										// )
+										.responseFields(
+												fieldWithPath("code").description("응답코드"),
+												fieldWithPath("message").description("응답메시지"),
+												fieldWithPath("data.id").description("스케줄 idx"),
+												fieldWithPath("data.title").description("스케줄 제목"),
+												fieldWithPath("data.adult").description("어른 인원수"),
+												fieldWithPath("data.child").description("아이 인원수"),
+												fieldWithPath("data.startDate").description("스케줄 시작일자"),
+												fieldWithPath("data.endDate").description("스케줄 종료일자"),
+												fieldWithPath("data.planList[0].id").description("계획 idx"),
+												fieldWithPath("data.planList[0].memo").description("계획 메모"),
+												fieldWithPath("data.planList[0].order").description("계획의 순서"),
+												fieldWithPath("data.planList[0].startDate").description("계획 시작일자"),
+												fieldWithPath("data.planList[0].endDate").description("계획 종료일자"),
+												fieldWithPath("data.planList[0].attraction.id").description("관광지 idx"),
+												fieldWithPath("data.planList[0].attraction.name").description("관광지 이름"),
+												fieldWithPath("data.planList[0].attraction.address").description("관광지 주소"),
+												fieldWithPath("data.planList[0].attraction.category").description("관광지 카테고리")
+										)
+										.build()
+						))
+				);
 	}
 
 	@Test
@@ -175,7 +239,7 @@ class ScheduleControllerTest {
 	public void testCopyPlanToNewSchedule() throws Exception {
 
 		//given
-		Cookie cookie = new Cookie("userCookie", "jongsu");
+		Cookie cookie = new Cookie("userCookie", "park1");
 		Long newScheduleId = 0L;
 		//        String today = "2022-04-27";
 		CopyScheduleDto csd = createTestCSD(newScheduleId);
@@ -190,7 +254,7 @@ class ScheduleControllerTest {
 			)).willReturn(scd.getScheduleId());
 
 		//when
-		ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.post("/schedules/plans/copy")
+		ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.post("/schedule/plans/copy")
 			.contentType(MediaType.APPLICATION_JSON)
 			.cookie(cookie)
 			//.content(new Gson().toJson(csd))
@@ -233,7 +297,7 @@ class ScheduleControllerTest {
 	public void testCopyPlanToOldSchedule() throws Exception {
 
 		//given
-		Cookie cookie = new Cookie("userCookie", "jongsu");
+		Cookie cookie = new Cookie("userCookie", "park1");
 		Long newScheduleId = 2L;
 		String today = "2022-04-27";
 		CopyScheduleDto csd = createTestCSD(newScheduleId);
@@ -248,7 +312,7 @@ class ScheduleControllerTest {
 			)).willReturn(scd.getScheduleId());
 
 		//when
-		ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.post("/schedules/plans/copy")
+		ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.post("/schedule/plans/copy")
 				.contentType(MediaType.APPLICATION_JSON)
 				.cookie(cookie)
 				.content(new Gson().toJson(csd))

@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active:
+    active: heather
   config:
     import: classpath:/aws.yml
 

@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active:
   config:
     import: classpath:/aws.yml
 

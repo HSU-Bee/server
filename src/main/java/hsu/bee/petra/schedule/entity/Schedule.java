@@ -39,6 +39,7 @@ public class Schedule extends Timestamp {
 	private String title;
 	private int adult;
 	private int child;
+	private long views;
 	private LocalDate startDate;
 	private LocalDate endDate;
 

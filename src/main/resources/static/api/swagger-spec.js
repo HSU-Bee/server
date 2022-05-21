@@ -6,7 +6,7 @@ window.swaggerSpec={
     "version" : "0.1.0"
   },
   "servers" : [ {
-    "url" : "http://15.165.93.55:8080"
+    "url" : "http://localhost:8080"
   } ],
   "tags" : [ ],
   "paths" : {
@@ -20,11 +20,11 @@ window.swaggerSpec={
           "content" : {
             "application/json;charset=UTF-8" : {
               "schema" : {
-                "$ref" : "#/components/schemas/login486549215"
+                "$ref" : "#/components/schemas/login1607700006"
               },
               "examples" : {
                 "LogIn and Get Cookie" : {
-                  "value" : "{\"id\":\"heather\",\"name\":\"������\"}"
+                  "value" : "{\n  \"id\" : \"heather\",\n  \"name\" : \"한인주\"\n}"
                 }
               }
             }
@@ -40,32 +40,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "LogIn and Get Cookie" : {
-                    "value" : "{\r\n  \"code\" : 2000,\r\n  \"message\" : \"성공\"\r\n}"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/mypage" : {
-      "get" : {
-        "tags" : [ "mypage" ],
-        "summary" : "mypage조회",
-        "description" : "mypage에서 사용자, 스케줄 개수, 리뷰 개수를 조회합니다.",
-        "operationId" : "마이페이지 조회",
-        "responses" : {
-          "200" : {
-            "description" : "200",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/mypage2104152416"
-                },
-                "examples" : {
-                  "마이페이지 조회" : {
-                    "value" : "{\r\n  \"code\" : 2000,\r\n  \"message\" : \"성공\",\r\n  \"data\" : {\r\n    \"userId\" : \"park1\",\r\n    \"myScheduleCount\" : 16,\r\n    \"myReviewCount\" : 0\r\n  }\r\n}"
+                    "value" : "{\n  \"code\" : 2000,\n  \"message\" : \"성공\"\n}"
                   }
                 }
               }
@@ -99,7 +74,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "개별 스케줄 조회" : {
-                    "value" : "{\r\n  \"code\" : 2000,\r\n  \"message\" : \"성공\",\r\n  \"data\" : {\r\n    \"id\" : 1,\r\n    \"title\" : \"1박 2일 강릉 여행\",\r\n    \"adult\" : 0,\r\n    \"child\" : 0,\r\n    \"startDate\" : \"2022-05-10\",\r\n    \"endDate\" : \"2022-05-10\",\r\n    \"planList\" : [ {\r\n      \"id\" : 1,\r\n      \"memo\" : \"밥부터 먹자\",\r\n      \"order\" : 1,\r\n      \"startDate\" : \"2022-04-08\",\r\n      \"endDate\" : \"2022-04-08\",\r\n      \"attraction\" : {\r\n        \"id\" : 1,\r\n        \"name\" : \"강릉초당순두부\",\r\n        \"address\" : \"강릉시 123-1\",\r\n        \"category\" : \"식당\"\r\n      }\r\n    } ]\r\n  }\r\n}"
+                    "value" : "{\n  \"code\" : 2000,\n  \"message\" : \"성공\",\n  \"data\" : {\n    \"id\" : 1,\n    \"title\" : \"1박 2일 강릉 여행\",\n    \"adult\" : 0,\n    \"child\" : 0,\n    \"startDate\" : \"2022-05-08\",\n    \"endDate\" : \"2022-05-08\",\n    \"planList\" : [ {\n      \"id\" : 1,\n      \"memo\" : \"밥부터 먹자\",\n      \"order\" : 1,\n      \"startDate\" : \"2022-04-08\",\n      \"endDate\" : \"2022-04-08\",\n      \"attraction\" : {\n        \"id\" : 1,\n        \"name\" : \"강릉초당순두부\",\n        \"address\" : \"강릉시 123-1\",\n        \"category\" : \"식당\"\n      }\n    } ]\n  }\n}"
                   }
                 }
               }
@@ -111,21 +86,21 @@ window.swaggerSpec={
     "/schedules/plans/copy" : {
       "post" : {
         "tags" : [ "schedules" ],
-        "summary" : "기존 스케줄의 Plan -> 다른 (기존 or 신규생성된 )스케줄에 복사",
-        "description" : "기존 스케줄에서 Plan들을 복사하여 다른 스케줄에 복사합니다. json의 newScheduleId키에 특정 schedule Id를 포함하여 전송하면 있으면 기존에 존재하던 스케줄에 plan을 추가해주고 newScheduleId키에 값을 넣지 않으면 새로 스케줄을 생성한 뒤 그 스케줄에 Plan을 추가하여 줍니다",
+        "summary" : "기존 스케줄의 Plan -> 기존의 다른 스케줄",
+        "description" : "기존 스케줄에서 Plan들을 복사하여 기존 스케줄에 삽입합니다.",
         "operationId" : "Copy Plan to ",
         "requestBody" : {
           "content" : {
             "application/json;charset=UTF-8" : {
               "schema" : {
-                "$ref" : "#/components/schemas/schedules-plans-copy386795774"
+                "$ref" : "#/components/schemas/schedules-plans-copy1014076054"
               },
               "examples" : {
-                "Copy Plan to New Schedule" : {
-                  "value" : "{\r\n  \"userId\" : \"park1\",\r\n  \"planIdList\" : [ 13, 60, 61 ],\r\n  \"scheduleId\" : 1\r\n}"
-                },
                 "Copy Plan to Old Schedule" : {
-                  "value" : "{\r\n  \"userId\" : \"park1\",\r\n  \"planIdList\" : [ 13, 60, 61 ],\r\n  \"scheduleId\" : 1,\r\n  \"newScheduleId\" : 2\r\n}"
+                  "value" : "{\n  \"userId\" : \"park1\",\n  \"planIdList\" : [ 13, 60, 61 ],\n  \"scheduleId\" : 1,\n  \"newScheduleId\" : 2\n}"
+                },
+                "Copy Plan to New Schedule" : {
+                  "value" : "{\n  \"userId\" : \"park1\",\n  \"planIdList\" : [ 13, 60, 61 ],\n  \"scheduleId\" : 1\n}"
                 }
               }
             }
@@ -137,14 +112,14 @@ window.swaggerSpec={
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/schedules-plans-copy-996633149"
+                  "$ref" : "#/components/schemas/schedules-plans-copy1379138827"
                 },
                 "examples" : {
-                  "Copy Plan to New Schedule" : {
-                    "value" : "{\r\n  \"code\" : 2000,\r\n  \"message\" : \"성공\",\r\n  \"data\" : {\r\n    \"scheduleId\" : 2\r\n  }\r\n}"
-                  },
                   "Copy Plan to Old Schedule" : {
-                    "value" : "{\r\n  \"code\" : 2000,\r\n  \"message\" : \"성공\",\r\n  \"data\" : {\r\n    \"scheduleId\" : 2\r\n  }\r\n}"
+                    "value" : "{\n  \"code\" : 2000,\n  \"message\" : \"성공\",\n  \"data\" : {\n    \"scheduleId\" : 2\n  }\n}"
+                  },
+                  "Copy Plan to New Schedule" : {
+                    "value" : "{\n  \"code\" : 2000,\n  \"message\" : \"성공\",\n  \"data\" : {\n    \"scheduleId\" : 2\n  }\n}"
                   }
                 }
               }
@@ -167,7 +142,7 @@ window.swaggerSpec={
               },
               "examples" : {
                 "Grant TravelType" : {
-                  "value" : "{\r\n  \"id\" : \"park1\",\r\n  \"answer\" : [ \"b\", \"b\", \"b\", \"b\", \"b\", \"b\", \"b\", \"b\", \"b\", \"b\" ]\r\n}"
+                  "value" : "{\n  \"id\" : \"park1\",\n  \"answer\" : [ \"b\", \"b\", \"b\", \"b\", \"b\", \"b\", \"b\", \"b\", \"b\", \"b\" ]\n}"
                 }
               }
             }
@@ -183,7 +158,7 @@ window.swaggerSpec={
                 },
                 "examples" : {
                   "Grant TravelType" : {
-                    "value" : "{\r\n  \"code\" : 2000,\r\n  \"message\" : \"성공\",\r\n  \"data\" : {\r\n    \"typeName\" : \"양귀비<위로, 위안>\",\r\n    \"typeDesc\" : \"도비 이즈 프리!! 도비는 자유를 찾아 떠나요~ 양귀비의 꽃말 위로, 위안과 잘 어울리는 당신! 여행을 떠날때는 주로 위로와 위안을 찾아 떠납니다. 당신은 때로는 힘든 생기면 도피하고 싶은 경향이 있습니다. 힘든 일상으로부터 도망치듯이 여행을 떠나는 당신은 여행에서 휴식과 편안함을 가장 중요하게 여기네요. 당신에게 추천하는 여행은 주로 호캉스, 스파, 식물원 등이 있습니다~\",\r\n    \"typeImageUrl\" : \"https://petra-bucket.s3.ap-northeast-2.amazonaws.com/psychology-test/%EB%A9%A7%EB%B0%AD%EC%A5%90.jpg\"\r\n  }\r\n}"
+                    "value" : "{\n  \"code\" : 2000,\n  \"message\" : \"성공\",\n  \"data\" : {\n    \"typeName\" : \"양귀비<위로, 위안>\",\n    \"typeDesc\" : \"도비 이즈 프리!! 도비는 자유를 찾아 떠나요~ 양귀비의 꽃말 위로, 위안과 잘 어울리는 당신! 여행을 떠날때는 주로 위로와 위안을 찾아 떠납니다. 당신은 때로는 힘든 생기면 도피하고 싶은 경향이 있습니다. 힘든 일상으로부터 도망치듯이 여행을 떠나는 당신은 여행에서 휴식과 편안함을 가장 중요하게 여기네요. 당신에게 추천하는 여행은 주로 호캉스, 스파, 식물원 등이 있습니다~\",\n    \"typeImageUrl\" : \"https://petra-bucket.s3.ap-northeast-2.amazonaws.com/psychology-test/%EB%A9%A7%EB%B0%AD%EC%A5%90.jpg\"\n  }\n}"
                   }
                 }
               }
@@ -195,38 +170,6 @@ window.swaggerSpec={
   },
   "components" : {
     "schemas" : {
-      "schedules-plans-copy386795774" : {
-        "type" : "object",
-        "properties" : {
-          "newScheduleId" : {
-            "type" : "number",
-            "description" : "plan들을 복사할 기존의 Schedule Id"
-          },
-          "planIdList" : {
-            "type" : "array",
-            "description" : "복사할 Plan의 Id 리스트",
-            "items" : {
-              "oneOf" : [ {
-                "type" : "object"
-              }, {
-                "type" : "boolean"
-              }, {
-                "type" : "string"
-              }, {
-                "type" : "number"
-              } ]
-            }
-          },
-          "userId" : {
-            "type" : "string",
-            "description" : "사용자 ID"
-          },
-          "scheduleId" : {
-            "type" : "number",
-            "description" : "PlanId가 위치한 Schedule Id"
-          }
-        }
-      },
       "users-travel-types2059588752" : {
         "type" : "object",
         "properties" : {
@@ -244,6 +187,19 @@ window.swaggerSpec={
                 "type" : "number"
               } ]
             }
+          },
+          "id" : {
+            "type" : "string",
+            "description" : "사용자 ID"
+          }
+        }
+      },
+      "login1607700006" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "사용자 이름"
           },
           "id" : {
             "type" : "string",
@@ -372,37 +328,39 @@ window.swaggerSpec={
           }
         }
       },
-      "mypage2104152416" : {
+      "schedules-plans-copy1014076054" : {
         "type" : "object",
         "properties" : {
-          "code" : {
+          "newScheduleId" : {
             "type" : "number",
-            "description" : "응답코드"
+            "description" : "plan들을 복사할 기존의 Schedule Id"
           },
-          "data" : {
-            "type" : "object",
-            "properties" : {
-              "myReviewCount" : {
-                "type" : "number",
-                "description" : "내가 작성한 review 수"
-              },
-              "myScheduleCount" : {
-                "type" : "number",
-                "description" : "내가 작성한 schedule 수"
-              },
-              "userId" : {
-                "type" : "string",
-                "description" : "내 id"
-              }
+          "planIdList" : {
+            "type" : "array",
+            "description" : "복사할 Plan의 Id 리스트",
+            "items" : {
+              "oneOf" : [ {
+                "type" : "object"
+              }, {
+                "type" : "boolean"
+              }, {
+                "type" : "string"
+              }, {
+                "type" : "number"
+              } ]
             }
           },
-          "message" : {
+          "userId" : {
             "type" : "string",
-            "description" : "응답메시지"
+            "description" : "사용자 ID"
+          },
+          "scheduleId" : {
+            "type" : "number",
+            "description" : "Plan의 Id가 위치한 Schedule Id"
           }
         }
       },
-      "schedules-plans-copy-996633149" : {
+      "schedules-plans-copy1379138827" : {
         "type" : "object",
         "properties" : {
           "code" : {
@@ -414,7 +372,7 @@ window.swaggerSpec={
             "properties" : {
               "scheduleId" : {
                 "type" : "number",
-                "description" : "기존의 Schedule Id"
+                "description" : "새로 생성한 Schedule Id"
               }
             }
           },
@@ -436,9 +394,6 @@ window.swaggerSpec={
             "description" : "응답메시지"
           }
         }
-      },
-      "login486549215" : {
-        "type" : "object"
       }
     }
   }

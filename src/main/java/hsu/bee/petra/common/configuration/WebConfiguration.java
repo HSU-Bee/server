@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -30,5 +31,11 @@ public class WebConfiguration implements WebMvcConfigurer {
 			.excludePathPatterns("/api/**")
 			.excludePathPatterns("/login")
 			.excludePathPatterns("/schedule/");
+	}
+
+	@Override
+	public void addCorsMappings(CorsRegistry registry){
+		registry.addMapping("/**")
+			.allowedOrigins("http://15.165.93.55:8080");
 	}
 }

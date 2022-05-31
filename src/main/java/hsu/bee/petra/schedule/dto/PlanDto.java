@@ -7,6 +7,7 @@ import hsu.bee.petra.attraction.dto.AttractionDto;
 import hsu.bee.petra.schedule.entity.Plan;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@EqualsAndHashCode
 public class PlanDto {
 
 	private Long id;
@@ -68,4 +70,25 @@ public class PlanDto {
 			.build();
 	}
 
+//	@Override
+//	public boolean equals(Object obj) {
+//
+//		if (obj == this) return true;
+//		if (!(obj instanceof PlanDto)) return false;
+//		PlanDto other = (PlanDto) obj;
+//		if (!other.canEqual((Object)this)) return false;
+//
+//		// id, memo,, order, startDate, endDate, attractionName,scheduleId, attraction
+//		if(Double.compare(this.id, other.getId()) != 0) return false;
+//		if (this.getMemo() == null ? other.getMemo() != null : !this.getMemo().equals(other.getMemo())) return false;
+//		if
+//		//if (Double.compare(this.score, other.score) != 0) return false;
+//		if (!Arrays.deepEquals(this.tags, other.tags)) return false;
+//		return true;
+//
+//	}
+//	protected boolean canEqual(Object other) {
+//		return other instanceof EqualsAndHashCodeExample;
+//	}
 }
+

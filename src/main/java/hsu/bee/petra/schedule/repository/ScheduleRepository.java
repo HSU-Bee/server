@@ -1,5 +1,6 @@
 package hsu.bee.petra.schedule.repository;
 
+import hsu.bee.petra.schedule.dto.ScheduleSigunguDto;
 import hsu.bee.petra.user.entity.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,6 +37,11 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             "FROM attraction att JOIN address ad ON (att.address_id = ad.id) ) aa\n" +
             "ON ( aa.attraction_id = scp.attraction_id )\n" +
             "ORDER BY scp.scheduleId, scp.planOrder", nativeQuery = true)
-    List<Tuple> findXY(@Param("scheduleIdList") ArrayList<Long> scheduleIdList);
+    List<Tuple> findXY(@Param("scheduleIdList") List<Long> scheduleIdList);
 
+    @Query(value="select s.id as scheduleId, a.sigungu_id as sigungu, a.area_id as area, count(*) as count\n" +
+            "FROM Plan p, Schedule s, Attraction a\n" +
+            "WHERE s.id IN :scheduleList AND p.schedule_id = s.id and p.attraction_id = a.id and s.id\n" +
+            "group by s.id, a.sigungu_id, a.area_Id;", nativeQuery = true)
+    List<ScheduleSigunguDto> getSigunguFromSchedule(@Param(value="scheduleList")List<Long> scheduleIdList);
 }

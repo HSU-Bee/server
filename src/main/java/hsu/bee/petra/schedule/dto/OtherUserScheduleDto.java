@@ -2,6 +2,7 @@ package hsu.bee.petra.schedule.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import hsu.bee.petra.code.entity.TravelCode;
+import hsu.bee.petra.location.entity.Sigungu;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -16,7 +17,7 @@ public class OtherUserScheduleDto {
 
     private Long scheduleId;
 
-    private TravelCode travelCode;
+    private String travelCodeName;
 
     private Double totalDistance;
 
@@ -28,4 +29,5 @@ public class OtherUserScheduleDto {
 
     private Long travelPeriod;
 
+    private Sigungu sigungu;
 }
